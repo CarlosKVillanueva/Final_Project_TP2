@@ -31,20 +31,6 @@ con el fin de brindar una mejor experiencia de usuario.
 #### Retorna
 - Turno con **Estado RESERVADO**
 
-```
-sacarTurno(fecha, hora, nombreMascota, dniFamiliar) {
-
-Si hay disponibilidad (fecha, hora)
-
-busqueda(nombreMascota, dniFamiliar)
-
-Si la mascota no está registrada => Damos Alta (nombreMascota, dniFamiliar) return => idMascota
-
-reservarTurno(fecha, hora, idMascota) => Estado de LIBRE a RESERVADO
-
-Manejo de Errores con Excepciones
-}
-```
 
 
 ### Caso Uso 2: _Disponibilidad Horaria_ **(Caro)**
@@ -55,13 +41,6 @@ Nos solicitan poder mostrar de manera clara los turnos disponibles dada una fech
 
 #### Retorna:
 - Array con horarios disponibles en la fecha dada
-
-```
-horariosDisponibles(fecha) {
-    retorna => Array de Horarios disponibles para la fecha dada 
-}
-```
-
 
 
 ### Caso Uso 3: _Completar Registro_ **(Sherman)**
@@ -86,24 +65,7 @@ Al momento de realizar la atencion de la mascota, se deben completar los siguien
 #### Retorna:
 - String
 
-`En caso de que se haya registrado correctamente el sistema devolverá como mensaje: 
-“La mascota  fue registrada exitosamente” en caso contrario se arrojará una exception con el sig. 
-Mensaje: “La mascota no pudo ser guardada”`
-```
 
-SiEstaRegistrado {
-        cambiarEstadoTurno(Estado) => RESERVADO => ASISTIO?
-}
-    
-registroCompleto(idMascota, nombreMascota, razaMascota, edadMascota, pesoMascota, dniFamiliar, 
-nombreFamiliar, apellidoFamiliar, correoFamiliar, telefonoFamiliar, direccionFamiliar)
-
-    
-    registroCompletoMascota(idMascota, nombreMascota, razaMascota, edadMascota, pesoMascota)
-    registroCompletoFamiliar(dniFamiliar, nombreFamiliar, apellidoFamiliar, correoFamiliar, telefonoFamiliar, direccionFamiliar)
-}
-
-```
 
 
 
@@ -116,20 +78,13 @@ en estado RESERVADO
 - fecha
 - hora
 #### Retorna:
-- String Confirmacion 
-
-```
-cancelarTurno(fecha, hora) {
-    cambiarEstadoTurno(fecha, hora)
-}
-```
-
+- String Confirmacion
 
 
 ### Caso Uso 5: _Cambio de Estados de Turnos_ **(Sherman)**
 
 - Libre:ESTADO => Default
-- Reservado:ESTADO => Cuando un turno fue tomado. 
+- Reservado:ESTADO => Cuando un turno fue tomado.
 - Confirmado:ESTADO => Cuando se realiza el cobro de la consulta.
 
 
@@ -138,8 +93,8 @@ cancelarTurno(fecha, hora) {
 
 Solo se podrá modificar los datos de una mascota menos el idMascota.
 
-En caso de que se haya modificado correctamente el sistema devolverá como mensaje: 
-“El registro fue modificado exitosamente” en caso contrario se arrojará una exception con el sig. 
+En caso de que se haya modificado correctamente el sistema devolverá como mensaje:
+“El registro fue modificado exitosamente” en caso contrario se arrojará una exception con el sig.
 Mensaje: “No se pudo realizar la modificación correspondiente”
 
 
