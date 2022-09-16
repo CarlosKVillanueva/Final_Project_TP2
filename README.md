@@ -16,7 +16,7 @@ poder brindar un mejor servicio
 
 ### **_REQUISITOS FUNCIONALES DEL SISTEMA_**
 
-### Caso Uso 1: _Sacar Turno_ **(Carlos)**
+### Caso Uso 1: _Sacar Turno_ **(Kaio)**
 Con este registro rapido se busca celeridad para el registro de la mascota,  ante el requerimiento del familiar
 
 Nos piden solicitar la minima informacion posible necesaria para realizar el registro,
@@ -47,7 +47,7 @@ Manejo de Errores con Excepciones
 ```
 
 
-### Caso Uso 2: _Disponibilidad Horaria_ **(Voluntario)**
+### Caso Uso 2: _Disponibilidad Horaria_ **(Caro)**
 Nos solicitan poder mostrar de manera clara los turnos disponibles dada una fecha especificada
 
 #### Recibe:
@@ -107,7 +107,7 @@ nombreFamiliar, apellidoFamiliar, correoFamiliar, telefonoFamiliar, direccionFam
 
 
 
-### Caso Uso 4: _Cancelacion Turno_ **(Voluntario)**
+### Caso Uso 4: _Cancelacion Turno_ **(Romi)**
 
 Para cancelar un turno, se debe validar que la fecha y la hora sean correctas y que el turno se encuentre
 en estado RESERVADO
@@ -126,7 +126,7 @@ cancelarTurno(fecha, hora) {
 
 
 
-### Caso Uso 5: Cambio de Estados de Turnos
+### Caso Uso 5: _Cambio de Estados de Turnos_ **(Sherman)**
 
 - Libre:ESTADO => Default
 - Reservado:ESTADO => Cuando un turno fue tomado. 
@@ -134,7 +134,7 @@ cancelarTurno(fecha, hora) {
 
 
 
-### Caso Uso 6: Modificar Datos de la Mascota
+### Caso Uso 6: _Modificar Datos de la Mascota_ **(Caro)**
 
 Solo se podrá modificar los datos de una mascota menos el idMascota.
 
@@ -143,11 +143,11 @@ En caso de que se haya modificado correctamente el sistema devolverá como mensa
 Mensaje: “No se pudo realizar la modificación correspondiente”
 
 
-### Caso Uso 7: Eliminar registro de la Mascota
+### Caso Uso 7: _Eliminar registro de la Mascota_ **(Romi)**
 Se podrá eliminar a una mascota cuando la fecha de Nacimiento supere los 25 anios
 
 
-### Caso Uso 8: Generar Factura
+### Caso Uso 8: _Generar Factura_ **(Kaio)**
 
 Se deben registrar el monto final por los servicios prestados y se debe cambiar el Estado a **CONFIRMADO**
 
