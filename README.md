@@ -64,7 +64,8 @@ horariosDisponibles(fecha) {
 
 
 
-### Caso Uso 3: _Completar Registro_ **(Voluntario)**
+### Caso Uso 3: _Completar Registro_ **(Sherman)**
+
 Al momento de realizar la atencion de la mascota, se deben completar los siguientes atributos:
 
 #### Recibe:
@@ -107,6 +108,7 @@ nombreFamiliar, apellidoFamiliar, correoFamiliar, telefonoFamiliar, direccionFam
 
 
 ### Caso Uso 4: _Cancelacion Turno_ **(Voluntario)**
+
 Para cancelar un turno, se debe validar que la fecha y la hora sean correctas y que el turno se encuentre
 en estado RESERVADO
 
@@ -124,14 +126,16 @@ cancelarTurno(fecha, hora) {
 
 
 
-#### Caso Uso 5: Cambio de Estados de Turnos
+### Caso Uso 5: Cambio de Estados de Turnos
+
 - Libre:ESTADO => Default
 - Reservado:ESTADO => Cuando un turno fue tomado. 
 - Confirmado:ESTADO => Cuando se realiza el cobro de la consulta.
 
 
 
-#### Caso Uso 6: Modificar Datos de la Mascota
+### Caso Uso 6: Modificar Datos de la Mascota
+
 Solo se podrá modificar los datos de una mascota menos el idMascota.
 
 En caso de que se haya modificado correctamente el sistema devolverá como mensaje: 
@@ -139,11 +143,11 @@ En caso de que se haya modificado correctamente el sistema devolverá como mensa
 Mensaje: “No se pudo realizar la modificación correspondiente”
 
 
-#### Caso Uso 7: Eliminar registro de la Mascota
+### Caso Uso 7: Eliminar registro de la Mascota
 Se podrá eliminar a una mascota cuando la fecha de Nacimiento supere los 25 anios
 
 
-#### Caso Uso 8: Generar Factura
+### Caso Uso 8: Generar Factura
 
 Se deben registrar el monto final por los servicios prestados y se debe cambiar el Estado a **CONFIRMADO**
 
