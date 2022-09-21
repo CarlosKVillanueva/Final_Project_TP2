@@ -42,7 +42,7 @@ Nos solicitan poder mostrar de manera clara los turnos disponibles dada una fech
 #### Retorna:
 - Array con horarios disponibles en la fecha dada
 
-
+e
 ### Caso Uso 3: _Completar Registro_ **(Sherman)**
 
 Al momento de realizar la atencion de la mascota, se deben completar los siguientes atributos:
