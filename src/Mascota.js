@@ -11,10 +11,27 @@ export default class Mascota {
         this.#id = id
         this.#nombre = nombre
         this.#raza = raza
-        this.#peso = peso
         this.#fechaNacimiento = fechaNacimiento
         this.#edad = edad
+        this.#peso = peso
         this.#familiar = []
     }
 
+    get id() {
+        return this.#id
+    }
+
+    set id( value ) {
+        if ( !value ) throw new Error( 'ID INVALIDO' )
+        this.#id = value
+    }
+
+    set nombre( value ) {
+        if ( !value ) throw new Error( ' NOMBRE INVALIDO' )
+        this.#nombre = value
+    }
+
+    asignarFamiliar( familiar ) {
+        this.#familiar.push( familiar )
+    }
 }

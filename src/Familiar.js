@@ -16,4 +16,12 @@ export default class Familiar {
         this.#direccion = direccion
         this.#mascotas = []
     }
+
+    get dni() {
+        return this.#dni
+    }
+
+    asigmarMascota( mascota ) {
+        this.#mascotas.push( mascota )
+    }
 }

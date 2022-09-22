@@ -10,4 +10,16 @@ export default class Turno {
         this.#familiar = familiar
         this.#estado = EstadoTurno.LIBRE
     }
+
+    get estado() {
+        return this.#estado
+    }
+
+    set mascota( mascota ) {
+        this.#mascota = mascota
+    }
+
+    set familiar( familiar ) {
+        this.#familiar = familiar
+    }
 }
