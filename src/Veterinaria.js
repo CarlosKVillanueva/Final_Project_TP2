@@ -26,12 +26,12 @@ export default class Veterinaria {
                 try {
                     mascota = new Mascota( idMascota, nombreMascota, '', '', 0, 0 )
                 } catch ( e ) {
-                    throw new Error( e )
+                    console.log(e)
                 }
                 try {
                     familiar = new Familiar( dniFamiliar, nombreFamiliar, '', '', telefonoFamiliar, '' )
                 } catch ( e ) {
-                    throw new Error( e )
+                    console.log(e)
                 }
                 mascota.asignarFamiliar( familiar )
                 familiar.asigmarMascota( mascota )
