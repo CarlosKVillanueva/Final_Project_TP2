@@ -22,4 +22,11 @@ export default class Turno {
     set familiar( familiar ) {
         this.#familiar = familiar
     }
+    
+    cambiarEstadoTurno( value ) {
+        if (this.#estado === value) {
+            throw new Error('No se puede cambiar de estado al mismo estado')
+        }
+        this.#estado = value
+    }
 }
