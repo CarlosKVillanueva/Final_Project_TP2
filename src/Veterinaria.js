@@ -62,7 +62,35 @@ export default class Veterinaria {
 
     completarRegistro( { idMascota, nombreMascota, razaMascota, fNacMascota, edadMascota, pesoMascota },
                        { dniFamiliar, nombreFamiliar, apellidoFamiliar, emailFam, telFamiliar, direccionFamiliar } ) {
+        let mascota = this.#mascotas.find(m => m.id === idMascota)
+        let familiar = this.#clientes.find(f => f.dni === dniFamiliar)
 
+        if (!familiar) {
+            try {
+                familiar = new Familiar(dniFamiliar, nombreFamiliar, apellidoFamiliar, emailFam, telFamiliar, direccionFamiliar)
+            } catch (error) {
+                console.log(error)
+            }
+            if (!mascota) {
+                try {
+                    mascota = new Mascota(idMascota, nombreMascota, razaMascota, fNacMascota, edadMascota, pesoMascota)
+                    
+                } catch (error) {
+                    console.log(error)    
+                }
+                this.#mascotas.push(mascota)
+                mascota.asignarFamiliar(familiar)
+                familiar.asigmarMascota(mascota)
+            }
+
+        } else if (familiar.camposIncompletos()) {
+            
+            familiar.apellido = apellidoFamiliar
+            familiar.email = emailFam
+            familiar.direccion = direccionFamiliar
+        
+        }
+        console.log('Usted ya esta registrado completamente')
     }
 
 
