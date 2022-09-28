@@ -1,5 +1,11 @@
 # Veterinaria && Estetica CaRoKaGe
 
+## Integrantes
+- Romina Closter
+- Carolina Destepa
+- German Schmitz
+- Carlos Villanueva
+
 ## OBJETIVO
 El objetivo del sistema es facilitarles de manera **rapida** un turno a los familiares de las mascotas para
 su pronta atencion, con un registro rapido al momento de la solictud del mismo
@@ -17,7 +23,7 @@ poder brindar un mejor servicio
 ### **_REQUISITOS FUNCIONALES DEL SISTEMA_**
 
 ### Caso Uso 1: _Sacar Turno_ **(Kaio)**
-Con este registro rapido se busca celeridad para el registro de la mascota,  ante el requerimiento del familiar
+Con este registro rapido se busca celeridad para el registro de la mascota, ante el requerimiento del familiar
 
 Nos piden solicitar la minima informacion posible necesaria para realizar el registro,
 con el fin de brindar una mejor experiencia de usuario.
@@ -84,8 +90,8 @@ en estado RESERVADO
 ### Caso Uso 5: _Cambio de Estados de Turnos_ **(Sherman)**
 
 - Libre:ESTADO => Default
-- Reservado:ESTADO => Cuando un turno fue tomado.
-- Confirmado:ESTADO => Cuando se realiza el cobro de la consulta.
+- Reservado:ESTADO > Cuando un turno fue tomado.
+- Confirmado:ESTADO > Cuando se realiza el cobro de la consulta.
 
 
 
