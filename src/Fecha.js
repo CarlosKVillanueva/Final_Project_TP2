@@ -41,7 +41,7 @@ export default class Fecha {
         this.#turnos[ hora ].mascota( mascota )
         this.#turnos[ hora ].familiar( familiar )
     }
-    
+
     cancelarTurno( hora ) {
         this.#turnos[ hora ].estado = EstadoTurno.LIBRE
         this.#turnos[ hora ].mascota( mascota )
@@ -55,4 +55,5 @@ export default class Fecha {
     obtenerTurnos(){
         return this.#turnos.filter(t=>t.estado===EstadoTurno.LIBRE)
     }
+
 }

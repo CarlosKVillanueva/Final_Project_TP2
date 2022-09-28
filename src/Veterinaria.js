@@ -69,15 +69,53 @@ export default class Veterinaria {
 
     completarRegistro( { idMascota, nombreMascota, razaMascota, fNacMascota, edadMascota, pesoMascota },
                        { dniFamiliar, nombreFamiliar, apellidoFamiliar, emailFam, telFamiliar, direccionFamiliar } ) {
+        let mascota = this.#mascotas.find(m => m.id === idMascota)
+        let familiar = this.#clientes.find(f => f.dni === dniFamiliar)
 
+        if (!familiar) {
+            try {
+                familiar = new Familiar(dniFamiliar, nombreFamiliar, apellidoFamiliar, emailFam, telFamiliar, direccionFamiliar)
+            } catch (error) {
+                console.log(error)
+            }
+            if (!mascota) {
+                try {
+                    mascota = new Mascota(idMascota, nombreMascota, razaMascota, fNacMascota, edadMascota, pesoMascota)
+                    
+                } catch (error) {
+                    console.log(error)    
+                }
+                this.#mascotas.push(mascota)
+                mascota.asignarFamiliar(familiar)
+                familiar.asigmarMascota(mascota)
+            }
+
+        } else if (familiar.camposIncompletos()) {
+            
+            familiar.apellido = apellidoFamiliar
+            familiar.email = emailFam
+            familiar.direccion = direccionFamiliar
+        
+        }
+        console.log('Usted ya esta registrado completamente')
     }
 
 
     cancelarTurno( fecha, hora ) {
-
+       let fechaBuscada = this.#fechas.find( f => f.idDia === fecha.idDia )
+        if ( !fechaBuscada && fechaBuscada.esReservado(hora) ) {
+           fechaBuscada.cancelarTurno()
+        }    
     }
 
     eliminarRegistro( mascota ) {
+        const mascota = new Mascota( '', '', '', '', 0, 0 )
+        const edadMayor = 25
+        let mascotaBuscada = this.#mascotas.find( m => m.id === mascota.id)
+        if(!mascotaBuscada){
+            if(mascotaBuscada.edadMascota > edadMayor)
+            mascotaBuscada = mascota
+        }
 
     }
     
