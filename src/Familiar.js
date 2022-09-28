@@ -20,8 +20,59 @@ export default class Familiar {
     get dni() {
         return this.#dni
     }
+    
+    set dni(value) {
+        const dniRegex = /^[\d]{1,3}\.?[\d]{3,3}\.?[\d]{3,3}$/
+        if (!value.match(dniRegex)) {
+            throw new Error('Dni invalido, solo disponible ente 7 y 8 caracteres')
+        }
+        this.#dni = value
+    }
 
-    asigmarMascota( mascota ) {
+    set nombre(value){
+        const nombreRegex = /^[a-zA-Z\-]+$/
+        if (!value.match(nombreRegex)) {
+            throw new Error('Nombre invalido')
+        }
+    }
+
+    get apellido(){
+        return this.#apellido
+    }
+
+    set apellido(value){
+        const apellidoRegex = /^[a-zA-Z\-]+$/
+        if (!value.match(lastNameRegex)) {
+            throw new Error('Apellido invalido')
+        }
+        this.#apellido = value
+    }
+    
+    get email(){
+        return this.#email
+    }
+
+    set email(value) {
+        const emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
+        if (!value.match(validRegex)) {
+            throw new Error('Email invalido, ingrese una direccion correcta')
+        }
+        this.#email = value 
+    }
+
+    get direccion(){
+        return this.#direccion
+    }
+
+    set direccion(value) {
+        this.#direccion = value 
+    }
+
+    camposIncompletos() {
+        return this.#apellido.isEmpty() || this.#direccion.isEmpty() || this.#email.isEmpty()
+    }
+
+    asignarMascota( mascota ) {
         this.#mascotas.push( mascota )
     }
 }
