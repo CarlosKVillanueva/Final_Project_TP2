@@ -56,9 +56,16 @@ export default class Veterinaria {
 
     }
 
-    disponibilidadHorario( fecha ) {
-        // return
+    disponibilidadHorario(fecha) {
+    let fechaBuscada = this.#fechas.find((f) => f.idDia === fecha.idDia);
+    if (!fechaBuscada) {
+      const turnosDisponibles = fechaBuscada.obtenerTurnos();
     }
+
+    return turnosDisponibles;
+
+    // si la fecha es invalida o no hay mas turnos lanzamos un error
+  }
 
     completarRegistro( { idMascota, nombreMascota, razaMascota, fNacMascota, edadMascota, pesoMascota },
                        { dniFamiliar, nombreFamiliar, apellidoFamiliar, emailFam, telFamiliar, direccionFamiliar } ) {
@@ -73,6 +80,16 @@ export default class Veterinaria {
     eliminarRegistro( mascota ) {
 
     }
+    
+    modificarDatosDeLaMascota(idMascota, mascota) {
+    let mascotaBuscada = this.#mascotas.find((m) => m.idMascota === idMascota);
+    if (mascotaBuscada) {
+      mascotaBuscada.modificarDatosMascota(mascota);
+    } else {
+      throw new error("No se pudo realizar la modificación correspondiente");
+    }
+    
+  }
 
     generarFactura() {
 
