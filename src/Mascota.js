@@ -34,4 +34,12 @@ export default class Mascota {
     asignarFamiliar( familiar ) {
         this.#familiar.push( familiar )
     }
+    
+     modificarDatosMascota(mascota) {
+    this.#nombre = mascota.nombre;
+    this.#raza = mascota.raza;
+    this.#fechaNacimiento = mascota.fechaNacimiento;
+    this.#edad = mascota.edad;
+    this.#peso = mascota.peso;
+  }
 }
