@@ -17,6 +17,9 @@ export default class Mascota {
         this.#familiar = []
     }
 
+    get edad() {
+        return this.#edad
+    }
     get id() {
         return this.#id
     }

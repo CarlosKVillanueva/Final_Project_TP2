@@ -26,12 +26,12 @@ export default class Veterinaria {
                 try {
                     mascota = new Mascota( idMascota, nombreMascota, '', '', 0, 0 )
                 } catch ( e ) {
-                    console.log(e)
+                    console.log( e )
                 }
                 try {
                     familiar = new Familiar( dniFamiliar, nombreFamiliar, '', '', telefonoFamiliar, '' )
                 } catch ( e ) {
-                    console.log(e)
+                    console.log( e )
                 }
                 mascota.asignarFamiliar( familiar )
                 familiar.asigmarMascota( mascota )
@@ -56,78 +56,75 @@ export default class Veterinaria {
 
     }
 
-    disponibilidadHorario(fecha) {
-    let fechaBuscada = this.#fechas.find((f) => f.idDia === fecha.idDia);
-    if (!fechaBuscada) {
-      const turnosDisponibles = fechaBuscada.obtenerTurnos();
+    disponibilidadHorario( fecha ) {
+        let fechaBuscada = this.#fechas.find( ( f ) => f.idDia === fecha.idDia );
+        let turnosDisponibles
+        if ( fechaBuscada ) {
+            turnosDisponibles = fechaBuscada.obtenerTurnos();
+        }
+        return turnosDisponibles;
     }
-
-    return turnosDisponibles;
-
-    // si la fecha es invalida o no hay mas turnos lanzamos un error
-  }
 
     completarRegistro( { idMascota, nombreMascota, razaMascota, fNacMascota, edadMascota, pesoMascota },
                        { dniFamiliar, nombreFamiliar, apellidoFamiliar, emailFam, telFamiliar, direccionFamiliar } ) {
-        let mascota = this.#mascotas.find(m => m.id === idMascota)
-        let familiar = this.#clientes.find(f => f.dni === dniFamiliar)
+        let mascota = this.#mascotas.find( m => m.id === idMascota )
+        let familiar = this.#clientes.find( f => f.dni === dniFamiliar )
 
-        if (!familiar) {
+        if ( !familiar ) {
             try {
-                familiar = new Familiar(dniFamiliar, nombreFamiliar, apellidoFamiliar, emailFam, telFamiliar, direccionFamiliar)
-            } catch (error) {
-                console.log(error)
+                familiar = new Familiar( dniFamiliar, nombreFamiliar, apellidoFamiliar, emailFam, telFamiliar, direccionFamiliar )
+            } catch ( error ) {
+                console.log( error )
             }
-            if (!mascota) {
+            if ( !mascota ) {
                 try {
-                    mascota = new Mascota(idMascota, nombreMascota, razaMascota, fNacMascota, edadMascota, pesoMascota)
-                    
-                } catch (error) {
-                    console.log(error)    
+                    mascota = new Mascota( idMascota, nombreMascota, razaMascota, fNacMascota, edadMascota, pesoMascota )
+
+                } catch ( error ) {
+                    console.log( error )
                 }
-                this.#mascotas.push(mascota)
-                mascota.asignarFamiliar(familiar)
-                familiar.asigmarMascota(mascota)
+                this.#mascotas.push( mascota )
+                mascota.asignarFamiliar( familiar )
+                familiar.asigmarMascota( mascota )
             }
 
-        } else if (familiar.camposIncompletos()) {
-            
+        } else if ( familiar.camposIncompletos() ) {
+
             familiar.apellido = apellidoFamiliar
             familiar.email = emailFam
             familiar.direccion = direccionFamiliar
-        
+
         }
-        console.log('Usted ya esta registrado completamente')
+        console.log( 'Usted ya esta registrado completamente' )
     }
 
 
     cancelarTurno( fecha, hora ) {
-       let fechaBuscada = this.#fechas.find( f => f.idDia === fecha.idDia )
-        if ( !fechaBuscada && fechaBuscada.esReservado(hora) ) {
-           fechaBuscada.cancelarTurno()
-        }    
+        let fechaBuscada = this.#fechas.find( f => f.idDia === fecha.idDia )
+        if ( !fechaBuscada && fechaBuscada.esReservado( hora ) ) {
+            fechaBuscada.cancelarTurno()
+        }
     }
 
     eliminarRegistro( mascota ) {
-        const mascota = new Mascota( '', '', '', '', 0, 0 )
         const edadMayor = 25
-        let mascotaBuscada = this.#mascotas.find( m => m.id === mascota.id)
-        if(!mascotaBuscada){
-            if(mascotaBuscada.edadMascota > edadMayor)
-            mascotaBuscada = mascota
+        let mascotaBuscada = this.#mascotas.find( m => m.id === mascota.id )
+        if ( mascotaBuscada ) {
+            if ( mascotaBuscada.edad > edadMayor )
+                this.#mascotas.splice( mascotaBuscada.id, 1 )
         }
 
     }
-    
-    modificarDatosDeLaMascota(idMascota, mascota) {
-    let mascotaBuscada = this.#mascotas.find((m) => m.idMascota === idMascota);
-    if (mascotaBuscada) {
-      mascotaBuscada.modificarDatosMascota(mascota);
-    } else {
-      throw new error("No se pudo realizar la modificación correspondiente");
+
+    modificarDatosDeLaMascota( idMascota, mascota ) {
+        let mascotaBuscada = this.#mascotas.find( m => m.id === idMascota );
+        if ( mascotaBuscada ) {
+            mascotaBuscada.modificarDatosMascota( mascota );
+        } else {
+            throw new Error( "No se pudo realizar la modificación correspondiente" );
+        }
+
     }
-    
-  }
 
     generarFactura() {
 
