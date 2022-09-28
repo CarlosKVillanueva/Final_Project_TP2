@@ -67,10 +67,20 @@ export default class Veterinaria {
 
 
     cancelarTurno( fecha, hora ) {
-
+       let fechaBuscada = this.#fechas.find( f => f.idDia === fecha.idDia )
+        if ( !fechaBuscada && fechaBuscada.esReservado(hora) ) {
+           fechaBuscada.cancelarTurno()
+        }    
     }
 
     eliminarRegistro( mascota ) {
+        const mascota = new Mascota( '', '', '', '', 0, 0 )
+        const edadMayor = 25
+        let mascotaBuscada = this.#mascotas.find( m => m.id === mascota.id)
+        if(!mascotaBuscada){
+            if(mascotaBuscada.edadMascota > edadMayor)
+            mascotaBuscada = mascota
+        }
 
     }
 
