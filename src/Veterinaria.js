@@ -34,7 +34,7 @@ export default class Veterinaria {
                     console.log( e )
                 }
                 mascota.asignarFamiliar( familiar )
-                familiar.asigmarMascota( mascota )
+                familiar.asignarMascota( mascota )
             }
             this.asignarTurno( fecha, hora, mascota, familiar )
         } else {
@@ -85,7 +85,7 @@ export default class Veterinaria {
                 }
                 this.#mascotas.push( mascota )
                 mascota.asignarFamiliar( familiar )
-                familiar.asigmarMascota( mascota )
+                familiar.asignarMascota( mascota )
             }
 
         } else if ( familiar.camposIncompletos() ) {

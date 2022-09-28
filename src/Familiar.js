@@ -22,7 +22,7 @@ export default class Familiar {
     }
     
     set dni(value) {
-        const dniRegex = /^[\d]{1,3}\.?[\d]{3,3}\.?[\d]{3,3}$/
+        const dniRegex = /^\d{1,3}\.?\d{3}\.?\d{3}$/
         if (!value.match(dniRegex)) {
             throw new Error('Dni invalido, solo disponible ente 7 y 8 caracteres')
         }
@@ -42,7 +42,7 @@ export default class Familiar {
 
     set apellido(value){
         const apellidoRegex = /^[a-zA-Z\-]+$/
-        if (!value.match(lastNameRegex)) {
+        if (!value.match(apellidoRegex)) {
             throw new Error('Apellido invalido')
         }
         this.#apellido = value
@@ -54,22 +54,14 @@ export default class Familiar {
 
     set email(value) {
         const emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
-        if (!value.match(validRegex)) {
+        if (!value.match(emailRegex)) {
             throw new Error('Email invalido, ingrese una direccion correcta')
         }
         this.#email = value 
     }
 
-    get direccion(){
-        return this.#direccion
-    }
-
-    set direccion(value) {
-        this.#direccion = value 
-    }
-
     camposIncompletos() {
-        return this.#apellido.isEmpty() || this.#direccion.isEmpty() || this.#email.isEmpty()
+        return this.#apellido || this.#direccion || this.#email
     }
 
     asignarMascota( mascota ) {

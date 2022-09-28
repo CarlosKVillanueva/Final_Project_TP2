@@ -49,7 +49,7 @@ export default class Fecha {
     }
 
     esReservado( hora ) {
-        this.#turnos[ hora ].estado === EstadoTurno.RESERVADO
+        return this.#turnos[ hora ].estado === EstadoTurno.RESERVADO
     }
 
     obtenerTurnos() {
