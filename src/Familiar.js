@@ -20,44 +20,43 @@ export default class Familiar {
     get dni() {
         return this.#dni
     }
-    
-    set dni(value) {
+
+    set dni( dni ) {
         const dniRegex = /^\d{1,3}\.?\d{3}\.?\d{3}$/
-        if (!value.match(dniRegex)) {
-            throw new Error('Dni invalido, solo disponible ente 7 y 8 caracteres')
+        if ( !dni.match( dniRegex ) ) {
+            throw new Error( 'Dni invalido, solo disponible ente 7 y 8 caracteres' )
         }
-        this.#dni = value
+        this.#dni = dni
     }
 
-    set nombre(value){
-        const nombreRegex = /^[a-zA-Z\-]+$/
-        if (!value.match(nombreRegex)) {
-            throw new Error('Nombre invalido')
+    set nombre( nombre ) {
+        if ( !nombre.match( /^[a-zA-Z\-]+$/ ) ) {
+            throw new Error( 'Nombre invalido' )
         }
+        this.#nombre = nombre
     }
 
-    get apellido(){
+    get apellido() {
         return this.#apellido
     }
 
-    set apellido(value){
-        const apellidoRegex = /^[a-zA-Z\-]+$/
-        if (!value.match(apellidoRegex)) {
-            throw new Error('Apellido invalido')
+    set apellido( apellido ) {
+        if ( !apellido.match( /^[a-zA-Z\-]+$/ ) ) {
+            throw new Error( 'Apellido invalido' )
         }
-        this.#apellido = value
+        this.#apellido = apellido
     }
-    
-    get email(){
+
+    get email() {
         return this.#email
     }
 
-    set email(value) {
+    set email( email ) {
         const emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
-        if (!value.match(emailRegex)) {
-            throw new Error('Email invalido, ingrese una direccion correcta')
+        if ( !email.match( emailRegex ) ) {
+            throw new Error( 'Email invalido, ingrese una direccion correcta' )
         }
-        this.#email = value 
+        this.#email = email
     }
 
     camposIncompletos() {

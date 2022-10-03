@@ -4,14 +4,14 @@ import Familiar from "./Familiar.js"
 
 export default class Veterinaria {
     #nombre
-    #clientes
+    #registroFamiliares
     #mascotas
     #fechas
 
     constructor( nombre ) {
         this.#nombre = nombre
         this.#mascotas = []
-        this.#clientes = []
+        this.#registroFamiliares = new RegistroFamiliares()
         this.#fechas = []
     }
 
@@ -20,16 +20,18 @@ export default class Veterinaria {
         if ( this.turnoDisponible( fecha, hora ) ) {
             const idMascota = `${ dniFamiliar }-${ nombreMascota }`
             let mascota = this.#mascotas.find( m => m.id === idMascota )
-            let familiar = this.#clientes.find( f => f.dni === dniFamiliar )
+            let familiar = this.#registroFamiliares.buscarPorDni( dniFamiliar )
 
             if ( !mascota ) {
                 try {
                     mascota = new Mascota( idMascota, nombreMascota, '', '', 0, 0 )
+                    // Agregar a la lista
                 } catch ( e ) {
                     console.log( e )
                 }
                 try {
                     familiar = new Familiar( dniFamiliar, nombreFamiliar, '', '', telefonoFamiliar, '' )
+                    this.#registroFamiliares.registrar( familiar )
                 } catch ( e ) {
                     console.log( e )
                 }
@@ -67,23 +69,24 @@ export default class Veterinaria {
 
     completarRegistro( { idMascota, nombreMascota, razaMascota, fNacMascota, edadMascota, pesoMascota },
                        { dniFamiliar, nombreFamiliar, apellidoFamiliar, emailFam, telFamiliar, direccionFamiliar } ) {
+
         let mascota = this.#mascotas.find( m => m.id === idMascota )
-        let familiar = this.#clientes.find( f => f.dni === dniFamiliar )
+        let familiar = this.#registroFamiliares.buscarPorDni( dniFamiliar )
 
         if ( !familiar ) {
             try {
                 familiar = new Familiar( dniFamiliar, nombreFamiliar, apellidoFamiliar, emailFam, telFamiliar, direccionFamiliar )
+                this.#registroFamiliares.registrar( familiar )
             } catch ( error ) {
                 console.log( error )
             }
             if ( !mascota ) {
                 try {
                     mascota = new Mascota( idMascota, nombreMascota, razaMascota, fNacMascota, edadMascota, pesoMascota )
-
+                    // Agregar Mascota
                 } catch ( error ) {
                     console.log( error )
                 }
-                this.#mascotas.push( mascota )
                 mascota.asignarFamiliar( familiar )
                 familiar.asignarMascota( mascota )
             }
