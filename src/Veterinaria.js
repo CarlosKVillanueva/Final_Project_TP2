@@ -4,14 +4,14 @@ import Familiar from "./Familiar.js"
 
 export default class Veterinaria {
     #nombre
-    #clientes
-    #mascotas
+    #registroFamiliares
+    #registroMascotas
     #fechas
 
     constructor( nombre ) {
         this.#nombre = nombre
-        this.#mascotas = []
-        this.#clientes = []
+        this.#registroMascotas = new RegistroMascotas()
+        this.#registroFamiliares = new RegistroFamiliares()
         this.#fechas = []
     }
 
@@ -19,17 +19,19 @@ export default class Veterinaria {
 
         if ( this.turnoDisponible( fecha, hora ) ) {
             const idMascota = `${ dniFamiliar }-${ nombreMascota }`
-            let mascota = this.#mascotas.find( m => m.id === idMascota )
-            let familiar = this.#clientes.find( f => f.dni === dniFamiliar )
+            let mascota = this.#registroMascotas.buscarPorId( idMascota )
+            let familiar = this.#registroFamiliares.buscarPorDni( dniFamiliar )
 
             if ( !mascota ) {
                 try {
                     mascota = new Mascota( idMascota, nombreMascota, '', '', 0, 0 )
+                    this.#registroMascotas.registar( mascota )
                 } catch ( e ) {
                     console.log( e )
                 }
                 try {
                     familiar = new Familiar( dniFamiliar, nombreFamiliar, '', '', telefonoFamiliar, '' )
+                    this.#registroFamiliares.registrar( familiar )
                 } catch ( e ) {
                     console.log( e )
                 }
@@ -67,23 +69,24 @@ export default class Veterinaria {
 
     completarRegistro( { idMascota, nombreMascota, razaMascota, fNacMascota, edadMascota, pesoMascota },
                        { dniFamiliar, nombreFamiliar, apellidoFamiliar, emailFam, telFamiliar, direccionFamiliar } ) {
-        let mascota = this.#mascotas.find( m => m.id === idMascota )
-        let familiar = this.#clientes.find( f => f.dni === dniFamiliar )
+
+        let mascota = this.#registroMascotas.buscarPorId( idMascota )
+        let familiar = this.#registroFamiliares.buscarPorDni( dniFamiliar )
 
         if ( !familiar ) {
             try {
                 familiar = new Familiar( dniFamiliar, nombreFamiliar, apellidoFamiliar, emailFam, telFamiliar, direccionFamiliar )
+                this.#registroFamiliares.registrar( familiar )
             } catch ( error ) {
                 console.log( error )
             }
             if ( !mascota ) {
                 try {
                     mascota = new Mascota( idMascota, nombreMascota, razaMascota, fNacMascota, edadMascota, pesoMascota )
-
+                    this.#registroMascotas.registar( mascota )
                 } catch ( error ) {
                     console.log( error )
                 }
-                this.#mascotas.push( mascota )
                 mascota.asignarFamiliar( familiar )
                 familiar.asignarMascota( mascota )
             }
@@ -108,7 +111,7 @@ export default class Veterinaria {
 
     eliminarRegistro( mascota ) {
         const edadMayor = 25
-        let mascotaBuscada = this.#mascotas.find( m => m.id === mascota.id )
+        let mascotaBuscada = this.#registroMascotas.buscarPorId( mascota.id )
         if ( mascotaBuscada ) {
             if ( mascotaBuscada.edad > edadMayor )
                 this.#mascotas.splice( mascotaBuscada.id, 1 )
@@ -117,7 +120,7 @@ export default class Veterinaria {
     }
 
     modificarDatosDeLaMascota( idMascota, mascota ) {
-        let mascotaBuscada = this.#mascotas.find( m => m.id === idMascota );
+        let mascotaBuscada = this.#registroMascotas.buscarPorId( mascota.id )
         if ( mascotaBuscada ) {
             mascotaBuscada.modificarDatosMascota( mascota );
         } else {
