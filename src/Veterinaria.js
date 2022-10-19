@@ -6,17 +6,16 @@ export default class Veterinaria {
     #nombre
     #registroFamiliares
     #registroMascotas
-    #fechas
+    #agenda
 
     constructor( nombre ) {
         this.#nombre = nombre
         this.#registroMascotas = new RegistroMascotas()
         this.#registroFamiliares = new RegistroFamiliares()
-        this.#fechas = []
+        this.#agenda = new AgendaTurnos()
     }
 
     sacarTurno( fecha, hora, nombreMascota, dniFamiliar, nombreFamiliar, telefonoFamiliar ) {
-
         if ( this.turnoDisponible( fecha, hora ) ) {
             const idMascota = `${ dniFamiliar }-${ nombreMascota }`
             let mascota = this.#registroMascotas.buscarPorId( idMascota )
@@ -25,7 +24,7 @@ export default class Veterinaria {
             if ( !mascota ) {
                 try {
                     mascota = new Mascota( idMascota, nombreMascota, '', '', 0, 0 )
-                    this.#registroMascotas.registar( mascota )
+                    this.#registroMascotas.registrar( mascota )
                 } catch ( e ) {
                     console.log( e )
                 }
@@ -45,21 +44,22 @@ export default class Veterinaria {
     }
 
     asignarTurno( fecha, hora, mascota, familiar ) {
-        this.#fechas.find( f => f.idDia === fecha.idDia ).asignarTurno( hora, mascota, familiar )
+        this.#agenda.find( f => f.idDia === fecha.idDia ).asignarTurno( hora, mascota, familiar )
     }
 
     turnoDisponible( fecha, hora ) {
-        let fechaBuscada = this.#fechas.find( f => f.idDia === fecha.idDia )
+        let fechaBuscada = this.#agenda.buscarPorFecha( fecha )
+
         if ( !fechaBuscada ) {
-            fechaBuscada = this.#fechas.push( new Fecha( fecha ) )
+            fechaBuscada = this.#agenda.registrar( new Fecha( fecha ) )
         }
 
         return fechaBuscada.horarioDisponible( hora )
 
     }
 
-    disponibilidadHorario( fecha ) {
-        let fechaBuscada = this.#fechas.find( ( f ) => f.idDia === fecha.idDia );
+    disponibilidadHoraria( fecha ) {
+        let fechaBuscada = this.#agenda.find( ( f ) => f.idDia === fecha.idDia );
         let turnosDisponibles
         if ( fechaBuscada ) {
             turnosDisponibles = fechaBuscada.obtenerTurnos();
@@ -83,7 +83,7 @@ export default class Veterinaria {
             if ( !mascota ) {
                 try {
                     mascota = new Mascota( idMascota, nombreMascota, razaMascota, fNacMascota, edadMascota, pesoMascota )
-                    this.#registroMascotas.registar( mascota )
+                    this.#registroMascotas.registrar( mascota )
                 } catch ( error ) {
                     console.log( error )
                 }
@@ -103,18 +103,17 @@ export default class Veterinaria {
 
 
     cancelarTurno( fecha, hora ) {
-        let fechaBuscada = this.#fechas.find( f => f.idDia === fecha.idDia )
+        let fechaBuscada = this.#agenda.buscarPorFecha( fecha )
         if ( !fechaBuscada && fechaBuscada.esReservado( hora ) ) {
             fechaBuscada.cancelarTurno()
         }
     }
 
-    eliminarRegistro( mascota ) {
+    eliminarRegistroMascota( mascota ) {
         const edadMayor = 25
         let mascotaBuscada = this.#registroMascotas.buscarPorId( mascota.id )
-        if ( mascotaBuscada ) {
-            if ( mascotaBuscada.edad > edadMayor )
-                this.#mascotas.splice( mascotaBuscada.id, 1 )
+        if ( mascotaBuscada && mascotaBuscada.edad > edadMayor) {
+            this.#registroMascotas.eliminarMascota(mascota)
         }
 
     }

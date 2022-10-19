@@ -14,7 +14,7 @@ export default class Familiar {
         this.#email = email
         this.#telefono = telefono
         this.#direccion = direccion
-        this.#mascotas = []
+        this.#mascotas = new RegistroMascotas()
     }
 
     get dni() {

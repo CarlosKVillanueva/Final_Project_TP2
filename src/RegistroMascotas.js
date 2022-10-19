@@ -5,12 +5,16 @@ class RegistroMascotas {
         this.#mascotas = []
     }
 
-    registrar(mascota) {
+    registrar( mascota ) {
         this.#mascotas.push( mascota )
     }
 
     buscarPorId( id ) {
-        return this.#mascotas.find( m => m.id === id)
+        return this.#mascotas.find( m => m.id === id )
+    }
+
+    eliminarMascota( mascota ) {
+        this.#mascotas.splice( mascota.id, 1 )
     }
 
 }
