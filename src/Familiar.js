@@ -1,3 +1,5 @@
+import { requerido, validadorAlfabetico } from "../helpers/helpers.js"
+
 export default class Familiar {
     #dni
     #nombre
@@ -7,14 +9,16 @@ export default class Familiar {
     #direccion
     #mascotas
 
-    constructor( dni, nombre, apellido, email, telefono, direccion ) {
-        this.#dni = dni
-        this.#nombre = nombre
-        this.#apellido = apellido
-        this.#email = email
-        this.#telefono = telefono
-        this.#direccion = direccion
-        this.#mascotas = new RegistroMascotas()
+    constructor( { dni, nombre, apellido, email, telefono, direccion } ) {
+        this.dni = requerido( dni )
+        this.nombre = requerido( nombre )
+        this.apellido = apellido
+        this.email = email
+        //Agregar Setters
+        this.telefono = requerido(telefono)
+        //Agregar Setters
+        this.direccion = direccion
+        this.mascotas = new RegistroMascotas()
     }
 
     get dni() {
@@ -30,18 +34,19 @@ export default class Familiar {
     }
 
     set nombre( nombre ) {
-        if ( !nombre.match( /^[a-zA-Z\-]+$/ ) ) {
+        if ( validadorAlfabetico( nombre ) ) {
             throw new Error( 'Nombre invalido' )
         }
         this.#nombre = nombre
     }
+
 
     get apellido() {
         return this.#apellido
     }
 
     set apellido( apellido ) {
-        if ( !apellido.match( /^[a-zA-Z\-]+$/ ) ) {
+        if ( validadorAlfabetico( apellido ) ) {
             throw new Error( 'Apellido invalido' )
         }
         this.#apellido = apellido
@@ -59,11 +64,40 @@ export default class Familiar {
         this.#email = email
     }
 
+    get telefono() {
+        return this.#telefono
+    }
+
+    set telefono( value ) {
+        //TODO
+        this.#telefono = value
+    }
+
+    get direccion() {
+        return this.#direccion
+    }
+
+    set direccion( value ) {
+        //TODO
+        this.#direccion = value
+    }
+
     camposIncompletos() {
         return this.#apellido || this.#direccion || this.#email
     }
 
     asignarMascota( mascota ) {
         this.#mascotas.push( mascota )
+    }
+
+    asDto() {
+        return Object.freeze({
+            dni: this.dni,
+            nombre: this.nombre,
+            apellido: this.apellido,
+            email: this.email,
+            telefono: this.telefono,
+            direccion: this.direccion,
+        })
     }
 }

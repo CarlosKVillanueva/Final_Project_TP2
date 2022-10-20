@@ -16,31 +16,30 @@ export default class Veterinaria {
     }
 
     sacarTurno( fecha, hora, nombreMascota, dniFamiliar, nombreFamiliar, telefonoFamiliar ) {
-        if ( this.turnoDisponible( fecha, hora ) ) {
-            const idMascota = `${ dniFamiliar }-${ nombreMascota }`
-            let mascota = this.#registroMascotas.buscarPorId( idMascota )
-            let familiar = this.#registroFamiliares.buscarPorDni( dniFamiliar )
+        // early return // fail first
+        // if ( !this.turnoDisponible( fecha, hora ) ) {
+        //     throw new Error( `No contamos con un turno disponible el ${ fecha } a las ${ hora } hs.` )
+        // }
 
-            if ( !mascota ) {
-                try {
-                    mascota = new Mascota( idMascota, nombreMascota, '', '', 0, 0 )
-                    this.#registroMascotas.registrar( mascota )
-                } catch ( e ) {
-                    console.log( e )
-                }
-                try {
-                    familiar = new Familiar( dniFamiliar, nombreFamiliar, '', '', telefonoFamiliar, '' )
-                    this.#registroFamiliares.registrar( familiar )
-                } catch ( e ) {
-                    console.log( e )
-                }
-                mascota.asignarFamiliar( familiar )
-                familiar.asignarMascota( mascota )
-            }
-            this.asignarTurno( fecha, hora, mascota, familiar )
-        } else {
+        let familiar = this.#registroFamiliares.buscarPorDni( dniFamiliar )
+        if ( !familiar ) {
+            familiar = new Familiar( { dni: dniFamiliar, nombre: nombreFamiliar, telefono: telefonoFamiliar } )
+            this.#registroFamiliares.registrar( familiar )
+        }
+
+        const idMascota = `${ dniFamiliar }-${ nombreMascota }`
+        let mascota = this.#registroMascotas.buscarPorId( idMascota )
+
+        if ( !mascota ) {
+            mascota = new Mascota( { id: idMascota, nombre: nombreMascota } )
+            this.#registroMascotas.registrar( mascota )
+            familiar.asignarMascota( mascota )
+        }
+
+        if ( !this.turnoDisponible( fecha, hora ) ) {
             throw new Error( `No contamos con un turno disponible el ${ fecha } a las ${ hora } hs.` )
         }
+        this.asignarTurno( fecha, hora, mascota, familiar )
     }
 
     asignarTurno( fecha, hora, mascota, familiar ) {
@@ -112,8 +111,8 @@ export default class Veterinaria {
     eliminarRegistroMascota( mascota ) {
         const edadMayor = 25
         let mascotaBuscada = this.#registroMascotas.buscarPorId( mascota.id )
-        if ( mascotaBuscada && mascotaBuscada.edad > edadMayor) {
-            this.#registroMascotas.eliminarMascota(mascota)
+        if ( mascotaBuscada && mascotaBuscada.edad > edadMayor ) {
+            this.#registroMascotas.eliminarMascota( mascota )
         }
 
     }

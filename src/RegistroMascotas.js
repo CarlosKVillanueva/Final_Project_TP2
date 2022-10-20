@@ -13,8 +13,11 @@ class RegistroMascotas {
         return this.#mascotas.find( m => m.id === id )
     }
 
-    eliminarMascota( mascota ) {
-        this.#mascotas.splice( mascota.id, 1 )
+    eliminarMascota( id ) {
+        let indiceMascota = this.#mascotas.findIndex(m => m.id === id)
+        if ( indiceMascota !== -1 ) {
+            this.#mascotas.splice( indiceMascota, 1 )
+        }
     }
 
 }

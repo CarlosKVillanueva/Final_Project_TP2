@@ -1,9 +1,8 @@
 class AgendaTurnos {
-    #turnos
     #fechas
 
+
     constructor() {
-        this.#turnos = []
         this.#fechas = []
     }
 
