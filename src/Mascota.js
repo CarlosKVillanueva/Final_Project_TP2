@@ -11,11 +11,10 @@ export default class Mascota {
     constructor( { id, nombre, raza, fechaNacimiento, edad, peso } ) {
         this.id = requerido(id)
         this.nombre = requerido(nombre)
-        //TODO Agregar Setters
-        this.raza = raza
-        this.fechaNacimiento = fechaNacimiento
-        this.edad = edad
-        this.peso = peso
+        this.raza = requerido(raza)
+        this.fechaNacimiento = requerido(fechaNacimiento)
+        this.edad = requerido(edad)
+        this.peso = requerido(peso)
     }
 
     get edad() {
@@ -36,12 +35,33 @@ export default class Mascota {
         this.#nombre = value
     }
 
-    modificarDatosMascota( { nombre, raza,fechaNacimiento, edad, peso } ) {
-        this.#nombre = nombre;
-        this.#raza = raza;
-        this.#fechaNacimiento = fechaNacimiento;
-        this.#edad = edad;
-        this.#peso = peso;
+    set raza ( value ) {
+        if ( !value ) throw new Error( 'RAZA INVALIDA' )
+        this.#raza = value
+    }
+    //TODO DATE validation helper
+    set fechaNacimiento ( value ) {
+        if ( !value ) throw new Error( 'FECHA INVALIDA' )
+        this.#fechaNacimiento = value
+    }
+    //TODO edad helper
+    set edad ( value ) {
+        if ( !value ) throw new Error( 'EDAD INVALIDA' )
+        this.#edad = value
+    }
+
+    //TODO FUNCTION pesoIncorrecto()
+    set peso ( value ) {
+        if ( !value || pesoInorrecto(value)) throw new Error( 'PESO INVALIDO' )
+        this.#peso = value
+    }
+
+    cambiarDatos( { nombre, raza, fechaNacimiento, edad, peso } ) {
+        this.nombre = nombre;
+        this.raza = raza;
+        this.fechaNacimiento = fechaNacimiento;
+        this.edad = edad;
+        this.peso = peso;
     }
 
     asDto() {

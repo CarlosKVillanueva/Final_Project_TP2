@@ -57,6 +57,7 @@ export default class Familiar {
     }
 
     set email( email ) {
+        //TODO mover a helpers/helper.js
         const emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
         if ( !email.match( emailRegex ) ) {
             throw new Error( 'Email invalido, ingrese una direccion correcta' )
@@ -82,12 +83,16 @@ export default class Familiar {
         this.#direccion = value
     }
 
-    camposIncompletos() {
-        return this.#apellido || this.#direccion || this.#email
-    }
-
     asignarMascota( mascota ) {
         this.#mascotas.push( mascota )
+    }
+
+    cambiarDatos( familiar ) {
+        this.nombre = familiar.nombre
+        this.apellido = familiar.apellido
+        this.email = familiar.email
+        this.telefono = familiar.telefono
+        this.direccion = familiar.direccion
     }
 
     asDto() {
