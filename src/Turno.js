@@ -3,10 +3,14 @@ import { EstadoTurno } from "./EstadoTurno.js"
 export default class Turno {
     #mascota
     #familiar
-    #estado
+    #fecha
+    #hora
 
-    constructor() {
-        this.estado = EstadoTurno.LIBRE
+    constructor( fecha, hora, mascota, familiar ) {
+        this.#fecha = fecha
+        this.hora = hora
+        this.#mascota = mascota
+        this.#familiar = familiar
     }
 
     get mascota() {
@@ -25,29 +29,10 @@ export default class Turno {
         this.#familiar = familiar
     }
 
-    get estado() {
-        return this.#estado
-    }
-
-    set estado( value ) {
-        this.#estado = value
-    }
-
-    cambiarEstadoTurno( value ) {
-        if (this.#estado === value) {
-            throw new Error('No se puede cambiar de estado al mismo estado')
+    set hora( value ) {
+        if( value < 9 || value > 18) {
+            throw new Error('Horario invalido')
         }
-        this.#estado = value
-    }
-
-    tomarTurno( mascota, familiar ) {
-        this.#mascota = mascota
-        this.familiar = familiar
-        this.#estado = EstadoTurno.RESERVADO
-    }
-    cancelarTurno() {
-        this.#mascota = undefined
-        this.#familiar = undefined
-        this.estado = EstadoTurno.LIBRE
+        this.#hora = value
     }
 }
