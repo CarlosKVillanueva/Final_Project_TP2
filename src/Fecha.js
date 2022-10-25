@@ -8,7 +8,6 @@ export default class Fecha {
     #dia
     #mes
     #anio
-    #horas
 
 
     constructor( { dia, mes, anio } ) {
@@ -47,26 +46,6 @@ export default class Fecha {
 
     set anio( value ) {
         this.#anio = value
-    }
-
-    horarioDisponible( hora ) {
-        return this.#turnos[ hora ].estado === EstadoTurno.LIBRE
-    }
-
-    asignarTurno( hora, mascota, familiar ) {
-        this.#turnos[ hora ].tomarTurno( mascota, familiar )
-    }
-
-    cancelarTurno( hora ) {
-        this.#turnos[ hora ].cancelarTurno()
-    }
-
-    esReservado( hora ) {
-        return this.#turnos[ hora ] !== undefined
-    }
-
-    obtenerTurnos() {
-        return this.#turnos.filter( t => t.estado === EstadoTurno.LIBRE )
     }
 
 }

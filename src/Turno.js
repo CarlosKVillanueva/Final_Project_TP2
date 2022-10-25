@@ -1,5 +1,3 @@
-import { EstadoTurno } from "./EstadoTurno.js"
-
 export default class Turno {
     #mascota
     #familiar
@@ -31,7 +29,7 @@ export default class Turno {
 
     set hora( value ) {
         if( value < 9 || value > 18) {
-            throw new Error('Horario invalido')
+            throw new Error('Horario fuera de trabajo')
         }
         this.#hora = value
     }

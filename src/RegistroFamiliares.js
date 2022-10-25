@@ -1,20 +1,28 @@
-class RegistroFamiliares {
+import { MongoClient } from 'mongodb'
+
+const uri = "mongodb+srv://veterinariaTP2:<password>@veterinariatp2.6ptwb5y.mongodb.net/?retryWrites=true&w=majority";
+    
+const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
+    
+await client.connect()
+export default class RegistroFamiliares {
     #familiares
 
     constructor() {
-        this.#familiares = []
+        this.#familiares = client.db("VeterinariaTP2").collection("familiares")
     }
 
-    registrar(familiar) {
-        this.#familiares.push( familiar )
+    async registrar(familiar) {
+        await this.#familiares.insertOne( familiar )
     }
 
-    buscarPorDni( dni ) {
-        return this.#familiares.find( f => f.dni === dni)
+    async buscarPorDni( dniParam ) {
+        return await this.#familiares.findOne( {dni: dniParam})
     }
 
-    modificarDatos ( familiar ) {
+    async modificarDatos ( familiar ) {
         const familiarBuscado = this.buscarPorDni( familiar.dni )
+        //usar update
         if ( familiarBuscado ) {
             familiarBuscado.cambiarDatos( familiar )
         } else {
@@ -22,10 +30,11 @@ class RegistroFamiliares {
         }
     }
 
-    eliminarRegistro( dni ) {
-        const indiceFamiliar = this.#familiares.findIndex( f => f.dni === dni )
-        if ( indiceFamiliar !== -1 ) {
-            this.#familiares.splice( indiceFamiliar, 1 )
-        }
+    async eliminarRegistro( familiar ) {
+        await this.#familiares.deleteOne( familiar )
+    }
+
+    async listarFamiliares() {
+        return await this.#familiares.find({})
     }
 }

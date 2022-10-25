@@ -1,22 +1,28 @@
-class Turnera {
+import { MongoClient } from 'mongodb'
+
+const uri = "mongodb+srv://veterinariaTP2:<password>@veterinariatp2.6ptwb5y.mongodb.net/?retryWrites=true&w=majority";
+    
+const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
+    
+await client.connect()
+
+export default class Turnera {
     #turnos
 
     constructor() {
-        this.#turnos = []
+        this.#turnos = client.db("VeterinariaTP2").collection("turnera")
     }
 
-    buscarTurno( fecha, hora ) {
-        return this.#turnos.find( t => t.fecha === fecha && t.hora === hora )
+    async buscarTurno( fechaParam, horaParam ) {
+        return await this.#turnos.findOne( {fecha: fechaParam, hora: horaParam} )
     }
 
-    asignarTurno( fecha, hora, mascota, familiar ) {
-        this.#turnos.push( new Turno ( fecha, hora, mascota, familiar ))
+    async asignarTurno( fecha, hora, mascota, familiar ) {
+        await this.#turnos.insertOne( new Turno ( fecha, hora, mascota, familiar ))
     }
 
-    cancelarTurno( fecha, hora) {
-        const indexTurno = this.#turnos.findIndex( t => t.fecha === fecha && t.hora === hora )
-        if ( indexTurno !== -1) { 
-            this.#turnos.splice( indexTurno, 1 )
-        }
+    async cancelarTurno( fecha, hora) {
+        const turnoBuscado = await this.buscarTurno( fecha, hora )
+        await this.#turnos.deleteOne( turnoBuscado )
     }
 }

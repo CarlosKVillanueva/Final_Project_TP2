@@ -37,7 +37,6 @@ export default class Veterinaria {
             familiar.asignarMascota( mascota )
         }
 
-        // TODO validar fecha y hora (9 - 18)
         // Si fecha y hora son validas y el turno no existe es porque no esta reservado en esa hora
 
         if ( this.#turnera.buscarTurno( fecha, hora ) ) {
@@ -50,8 +49,8 @@ export default class Veterinaria {
         this.#turnera.cancelarTurno( fecha, hora )
     }
 
-    eliminarRegistroMascota( { id } ) {
-        this.#registroMascotas.eliminarMascota( id )
+    eliminarRegistroMascota( mascota ) {
+        this.#registroMascotas.eliminarMascota( mascota )
     }
 
     modificarDatosDeLaMascota( mascota ) {
