@@ -3,6 +3,7 @@ import Familiar from "./Familiar.js"
 import RegistroMascotas from "./RegistroMascotas.js"
 import Turnera from "./Turnera.js"
 import RegistroFamiliares from "./RegistroFamiliares.js"
+import { esFechaValida } from "../helpers/helpers.js"
 
 export default class Veterinaria {
     #nombre
@@ -39,6 +40,10 @@ export default class Veterinaria {
         }
 
         // Si fecha y hora son validas y el turno no existe es porque no esta reservado en esa hora
+
+        if ( esFechaValida( fecha ) && esHoraValida( hora)) {
+
+        }
 
         if ( this.#turnera.buscarTurno( fecha, hora ) ) {
             throw new Error( `No contamos con un turno disponible el ${ fecha } a las ${ hora } hs.` )

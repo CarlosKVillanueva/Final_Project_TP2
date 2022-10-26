@@ -1,4 +1,5 @@
-import { requerido, validadorAlfabetico } from "../helpers/helpers.js"
+import { requerido, validadorAlfabetico, validadorAlfanumerico, validadorDni, validadorMail, validadorNumerico } from "../helpers/helpers.js"
+import RegistroMascotas from "./RegistroMascotas.js"
 
 export default class Familiar {
     #dni
@@ -12,12 +13,10 @@ export default class Familiar {
     constructor( { dni, nombre, apellido, email, telefono, direccion } ) {
         this.dni = requerido( dni )
         this.nombre = requerido( nombre )
-        this.apellido = apellido
-        this.email = email
-        //Agregar Setters
+        this.apellido = requerido(apellido)
+        this.email = requerido(email)
         this.telefono = requerido(telefono)
-        //Agregar Setters
-        this.direccion = direccion
+        this.direccion = requerido(direccion)
         this.mascotas = new RegistroMascotas()
     }
 
@@ -26,11 +25,14 @@ export default class Familiar {
     }
 
     set dni( dni ) {
-        const dniRegex = /^\d{1,3}\.?\d{3}\.?\d{3}$/
-        if ( !dni.match( dniRegex ) ) {
+        if ( validadorDni(dni) ) {
             throw new Error( 'Dni invalido, solo disponible ente 7 y 8 caracteres' )
         }
         this.#dni = dni
+    }
+
+    get nombre() {
+        return this.#dni
     }
 
     set nombre( nombre ) {
@@ -57,9 +59,7 @@ export default class Familiar {
     }
 
     set email( email ) {
-        //TODO mover a helpers/helper.js
-        const emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
-        if ( !email.match( emailRegex ) ) {
+        if ( validadorMail(email)) {
             throw new Error( 'Email invalido, ingrese una direccion correcta' )
         }
         this.#email = email
@@ -70,7 +70,9 @@ export default class Familiar {
     }
 
     set telefono( value ) {
-        //TODO
+        if ( validadorAlfanumerico( value ) ) {
+            throw new Error( 'Telefono invalido' )
+        }
         this.#telefono = value
     }
 
@@ -79,12 +81,10 @@ export default class Familiar {
     }
 
     set direccion( value ) {
-        //TODO
+        if ( validadorAlfanumerico( value ) ) {
+            throw new Error( 'Direccion invalida' )
+        }
         this.#direccion = value
-    }
-
-    asignarMascota( mascota ) {
-        this.#mascotas.push( mascota )
     }
 
     cambiarDatos( familiar ) {

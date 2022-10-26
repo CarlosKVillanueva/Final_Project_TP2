@@ -1,4 +1,4 @@
-import requerido  from "../helpers/helpers"
+import  { requerido, esFechaValida, numerosPositivos } from "../helpers/helpers"
 
 export default class Mascota {
     #id
@@ -26,7 +26,8 @@ export default class Mascota {
     }
 
     set id( value ) {
-        if ( !value ) throw new Error( 'ID INVALIDO' )
+        if ( !value )
+            throw new Error( 'ID INVALIDO' )
         this.#id = value
     }
 
@@ -39,20 +40,23 @@ export default class Mascota {
         if ( !value ) throw new Error( 'RAZA INVALIDA' )
         this.#raza = value
     }
-    //TODO DATE validation helper
-    set fechaNacimiento ( value ) {
-        if ( !value ) throw new Error( 'FECHA INVALIDA' )
-        this.#fechaNacimiento = value
+
+    set fechaNacimiento ( fecha ) {
+        if ( !esFechaValida(fecha) )
+            throw new Error( 'FECHA INVALIDA' )
+
+        this.#fechaNacimiento = fecha
     }
-    //TODO edad helper
+
     set edad ( value ) {
-        if ( !value ) throw new Error( 'EDAD INVALIDA' )
+        if ( !value || numerosPositivos(value))
+            throw new Error( 'EDAD INVALIDO' )
         this.#edad = value
     }
 
-    //TODO FUNCTION pesoIncorrecto()
     set peso ( value ) {
-        if ( !value || pesoInorrecto(value)) throw new Error( 'PESO INVALIDO' )
+        if ( !value || numerosPositivos(value))
+            throw new Error( 'PESO INVALIDO' )
         this.#peso = value
     }
 
