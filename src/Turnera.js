@@ -1,7 +1,7 @@
 import { MongoClient } from 'mongodb'
 import Turno from "./Turno.js"
 
-const uri = "mongodb+srv://veterinariaTP2:<password>@veterinariatp2.6ptwb5y.mongodb.net/?retryWrites=true&w=majority";
+const uri = "mongodb+srv://veterinariaTP2:LERIzSJ7jtuZKcns@veterinariatp2.6ptwb5y.mongodb.net/?retryWrites=true&w=majority";
     
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
     
