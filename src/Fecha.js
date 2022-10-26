@@ -1,5 +1,3 @@
-import { EstadoTurno } from "./EstadoTurno.js"
-
 const HORARIO_CIERRE = 18
 
 export default class Fecha {
@@ -14,11 +12,6 @@ export default class Fecha {
         this.#dia = dia
         this.#mes = mes
         this.#anio = anio
-        this.#idDia = `${ dia }-${ mes }-${ anio }`
-    }
-
-    get idDia() {
-        return this.#idDia
     }
 
     get dia() {

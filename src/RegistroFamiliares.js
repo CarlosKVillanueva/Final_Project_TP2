@@ -5,6 +5,7 @@ const uri = "mongodb+srv://veterinariaTP2:<password>@veterinariatp2.6ptwb5y.mong
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
     
 await client.connect()
+
 export default class RegistroFamiliares {
     #familiares
 

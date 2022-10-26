@@ -17,6 +17,7 @@
     "vitest": "^0.24.1"
   },
   "dependencies": {
+    "mongodb": "^4.11.0",
     "mongosh": "^1.6.0"
   }
 }

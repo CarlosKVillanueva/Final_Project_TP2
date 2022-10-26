@@ -1,7 +1,8 @@
-import Fecha from "./Fecha.js"
 import Mascota from "./Mascota.js"
 import Familiar from "./Familiar.js"
-import Turno from "./Turno.js"
+import RegistroMascotas from "./RegistroMascotas.js"
+import Turnera from "./Turnera.js"
+import RegistroFamiliares from "./RegistroFamiliares.js"
 
 export default class Veterinaria {
     #nombre

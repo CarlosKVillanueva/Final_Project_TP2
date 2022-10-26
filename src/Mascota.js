@@ -1,4 +1,4 @@
-import requerido from "../helpers/helpers"
+import requerido  from "../helpers/helpers"
 
 export default class Mascota {
     #id
