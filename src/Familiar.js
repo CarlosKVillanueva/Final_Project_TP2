@@ -13,10 +13,10 @@ export default class Familiar {
     constructor( { dni, nombre, apellido, email, telefono, direccion } ) {
         this.dni = requerido( dni )
         this.nombre = requerido( nombre )
-        this.apellido = requerido(apellido)
-        this.email = requerido(email)
-        this.telefono = requerido(telefono)
-        this.direccion = requerido(direccion)
+        this.apellido = requerido( apellido )
+        this.email = requerido( email )
+        this.telefono = requerido( telefono )
+        this.direccion = requerido( direccion )
         this.mascotas = new RegistroMascotas()
     }
 
@@ -25,7 +25,7 @@ export default class Familiar {
     }
 
     set dni( dni ) {
-        if ( validadorDni(dni) ) {
+        if ( validadorDni( dni ) ) {
             throw new Error( 'Dni invalido, solo disponible ente 7 y 8 caracteres' )
         }
         this.#dni = dni
@@ -41,7 +41,6 @@ export default class Familiar {
         }
         this.#nombre = nombre
     }
-
 
     get apellido() {
         return this.#apellido
@@ -59,7 +58,7 @@ export default class Familiar {
     }
 
     set email( email ) {
-        if ( validadorMail(email)) {
+        if ( validadorMail( email ) ) {
             throw new Error( 'Email invalido, ingrese una direccion correcta' )
         }
         this.#email = email
@@ -70,7 +69,7 @@ export default class Familiar {
     }
 
     set telefono( value ) {
-        if ( validadorAlfanumerico( value ) ) {
+        if ( validadorNumerico( value ) ) {
             throw new Error( 'Telefono invalido' )
         }
         this.#telefono = value
@@ -87,6 +86,10 @@ export default class Familiar {
         this.#direccion = value
     }
 
+    async asignarMascota( mascota ) {
+        await this.#mascotas.registrar( mascota )
+    }
+
     cambiarDatos( familiar ) {
         this.nombre = familiar.nombre
         this.apellido = familiar.apellido
@@ -96,13 +99,13 @@ export default class Familiar {
     }
 
     asDto() {
-        return Object.freeze({
+        return Object.freeze( {
             dni: this.dni,
             nombre: this.nombre,
             apellido: this.apellido,
             email: this.email,
             telefono: this.telefono,
             direccion: this.direccion,
-        })
+        } )
     }
 }

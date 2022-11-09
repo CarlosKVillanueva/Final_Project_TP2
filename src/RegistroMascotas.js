@@ -1,8 +1,7 @@
 import { MongoClient } from 'mongodb'
+import { stringMongo } from "../config/config.js"
 
-const uri = "mongodb+srv://veterinariaTP2:LERIzSJ7jtuZKcns@veterinariatp2.6ptwb5y.mongodb.net/?retryWrites=true&w=majority";
-    
-const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
+const client = new MongoClient(stringMongo, { useNewUrlParser: true, useUnifiedTopology: true });
     
 await client.connect()
 export default class RegistroMascotas {
@@ -20,8 +19,8 @@ export default class RegistroMascotas {
         return await this.#mascotas.find( { id: idParam } )
     }
 
-    async eliminarMascota( mascota ) {
-        await this.#mascotas.deleteOne( { id: mascota.id } )
+    async eliminarMascota( id ) {
+        await this.#mascotas.deleteOne( id )
     }
 
     async modificarDatos( mascota ) {

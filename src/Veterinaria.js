@@ -3,7 +3,7 @@ import Familiar from "./Familiar.js"
 import RegistroMascotas from "./RegistroMascotas.js"
 import Turnera from "./Turnera.js"
 import RegistroFamiliares from "./RegistroFamiliares.js"
-import { esFechaValida } from "../helpers/helpers.js"
+import { esFamiliarValido, esFechaValida, esHoraValida, esMascotaValida, validadorDni, validadorNumerico } from "../helpers/helpers.js"
 
 export default class Veterinaria {
     #nombre
@@ -18,61 +18,75 @@ export default class Veterinaria {
         this.#turnera = new Turnera()
     }
 
-    sacarTurno( fecha, hora, nombreMascota, dniFamiliar, nombreFamiliar, telefonoFamiliar ) {
-        // early return // fail first
-        // if ( !this.turnoDisponible( fecha, hora ) ) {
-        //     throw new Error( `No contamos con un turno disponible el ${ fecha } a las ${ hora } hs.` )
-        // }
-        
-        let familiar = this.#registroFamiliares.buscarPorDni( dniFamiliar )
-        if ( !familiar ) {
-            familiar = new Familiar( { dni: dniFamiliar, nombre: nombreFamiliar, telefono: telefonoFamiliar } )
-            this.#registroFamiliares.registrar( familiar )
+    async sacarTurno( fecha, hora, mascota, familiar ) {
+
+        let familiarBuscado = await this.#registroFamiliares.buscarPorDni( familiar )
+        if ( !familiarBuscado ) {
+            familiarBuscado = new Familiar( familiar )
+            await this.#registroFamiliares.registrar( familiarBuscado )
         }
 
-        const idMascota = `${ dniFamiliar }-${ nombreMascota }`
-        let mascota = this.#registroMascotas.buscarPorId( idMascota )
+        const nombreMascota = mascota.nombre
+        const idMascota = `${ familiarBuscado.dni }-${ nombreMascota }`
+        let mascotaBuscada = await this.#registroMascotas.buscarPorId( idMascota )
 
-        if ( !mascota ) {
-            mascota = new Mascota( { id: idMascota, nombre: nombreMascota } )
-            this.#registroMascotas.registrar( mascota )
-            familiar.asignarMascota( mascota )
+        if ( !mascotaBuscada ) {
+            mascotaBuscada = new Mascota( mascota )
+            await this.#registroMascotas.registrar( mascotaBuscada )
+            await familiar.asignarMascota( mascotaBuscada )
         }
 
-        // Si fecha y hora son validas y el turno no existe es porque no esta reservado en esa hora
+        if ( !esFechaValida( fecha ) )
+            throw new Error( `La fecha: ${ fecha } es invalida` )
 
-        if ( esFechaValida( fecha ) && esHoraValida( hora)) {
+        if ( !esHoraValida( hora ) )
+            throw new Error( `La hora: ${ hora } es invalida` )
 
-        }
-
-        if ( this.#turnera.buscarTurno( fecha, hora ) ) {
+        if ( await this.#turnera.buscarTurno( fecha, hora ) ) {
             throw new Error( `No contamos con un turno disponible el ${ fecha } a las ${ hora } hs.` )
         }
-        this.#turnera.asignarTurno( fecha, hora, mascota, familiar )
+        await this.#turnera.asignarTurno( fecha, hora, mascota, familiar )
     }
 
-    cancelarTurno( fecha, hora ) {
-        this.#turnera.cancelarTurno( fecha, hora )
+    async cancelarTurno( fecha, hora ) {
+        if ( !esFechaValida( fecha ) )
+            throw new Error( `La fecha: ${ fecha } es invalida` )
+
+        if ( !esHoraValida( hora ) )
+            throw new Error( `La hora: ${ hora } es invalida` )
+        await this.#turnera.cancelarTurno( fecha, hora )
     }
 
-    eliminarRegistroMascota( mascota ) {
-        this.#registroMascotas.eliminarMascota( mascota )
+    async eliminarRegistroMascota( { id } ) {
+        if ( await this.#registroMascotas.buscarPorId( id ) ) {
+            await this.#registroMascotas.eliminarMascota( id )
+        }
     }
 
-    modificarDatosDeLaMascota( mascota ) {
-        this.#registroMascotas.modificarDatos( mascota )
+    async modificarDatosDeLaMascota( mascota ) {
+        //TODO es valido?
+        if ( !esMascotaValida( mascota ) ) {
+            throw new Error('La mascota ingresada es invalida')
+        }
+        await this.#registroMascotas.modificarDatos( mascota )
     }
 
-    modificarDatosDelFamiliar ( familiar ) {
-        this.#registroFamiliares.modificarDatos( familiar )
+    async modificarDatosDelFamiliar( familiar ) {
+        //TODO Validador Familiar?
+        if ( !esFamiliarValido( familiar ) ) {
+            throw new Error('La mascota ingresada es invalida')
+        }
+        await this.#registroFamiliares.modificarDatos( familiar )
     }
 
-    eliminarRegistroFamiliar( { dni } ) {
-        this.#registroFamiliares.eliminarRegistro( dni )
-    }
+    async eliminarRegistroFamiliar( { dni } ) {
+        if ( validadorDni( dni ) ) {
+            throw new Error( 'Dni invalido, solo disponible ente 7 y 8 caracteres' )
+        }
 
-    generarFactura() {
-
+        if ( await this.#registroFamiliares.buscarPorDni( dni ) ) {
+            await this.#registroFamiliares.eliminarRegistro( dni )
+        }
     }
 }
 

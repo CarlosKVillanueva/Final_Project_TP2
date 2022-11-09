@@ -1,0 +1,1 @@
+export const stringMongo = 'mongodb+srv://veterinariaTP2:LERIzSJ7jtuZKcns@veterinariatp2.6ptwb5y.mongodb.net/?retryWrites=true&w=majority'
