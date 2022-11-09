@@ -4,6 +4,7 @@ import RegistroMascotas from "./RegistroMascotas.js"
 import Turnera from "./Turnera.js"
 import RegistroFamiliares from "./RegistroFamiliares.js"
 import { esFamiliarValido, esFechaValida, esHoraValida, esMascotaValida, validadorDni, validadorNumerico } from "../helpers/helpers.js"
+import Turno from "./Turno.js"
 
 export default class Veterinaria {
     #nombre
@@ -45,7 +46,7 @@ export default class Veterinaria {
         if ( await this.#turnera.buscarTurno( fecha, hora ) ) {
             throw new Error( `No contamos con un turno disponible el ${ fecha } a las ${ hora } hs.` )
         }
-        await this.#turnera.asignarTurno( fecha, hora, mascota, familiar )
+        await this.#turnera.asignarTurno( new Turno ( fecha, hora, mascota, familiar ) )
     }
 
     async cancelarTurno( fecha, hora ) {

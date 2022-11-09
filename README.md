@@ -6,6 +6,10 @@ Una vez instalado el framework, para correr los test, se debera ejecutar (en la 
 
 `npm run test`
 
+Una vez instalado el framework, para correr los test con GUI, se debera ejecutar (en la carpeta raiz del proyecto)
+
+`npm run testUI`
+
 
 # Veterinaria && Estetica CaRoKaGe
 ## Grupo 1

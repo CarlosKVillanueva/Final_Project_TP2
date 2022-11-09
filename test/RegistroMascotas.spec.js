@@ -26,9 +26,9 @@ describe( 'Registro de Mascota', () => {
             const mascotaGuardada = await mascotas.registrar( mascotaValida )
             console.log('Mascota Guardada:', mascotaGuardada)
             const mascotaEncontrada = await mascotas.buscarPorId( mascotaValida.id )
-            console.log('Mascota Encontrada', mascotaEncontrada.id)
+            console.log('Mascota Encontrada', mascotaEncontrada)
             expect( mascotaValida.id ).toStrictEqual( mascotaEncontrada.id )
-
+            //TODO CONSTRUCTORES que reciben objetos
         } )
     } )
 } )

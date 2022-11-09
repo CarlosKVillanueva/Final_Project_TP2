@@ -4,6 +4,7 @@ export default class Turno {
     #fecha
     #hora
 
+    //TODO Desestructuracion
     constructor( fecha, hora, mascota, familiar ) {
         this.#fecha = fecha
         this.hora = hora
@@ -33,4 +34,6 @@ export default class Turno {
         }
         this.#hora = value
     }
+
+    // TODO AGREGAR ASDTO()
 }

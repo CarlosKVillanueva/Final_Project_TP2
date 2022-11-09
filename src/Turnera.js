@@ -1,5 +1,4 @@
 import { MongoClient } from 'mongodb'
-import Turno from "./Turno.js"
 import { stringMongo } from "../config/config.js"
 
 const client = new MongoClient(stringMongo, { useNewUrlParser: true, useUnifiedTopology: true });
@@ -14,11 +13,12 @@ export default class Turnera {
     }
 
     async buscarTurno( fechaParam, horaParam ) {
-        return await this.#turnos.findOne( {fecha: fechaParam, hora: horaParam} )
+        const dto = await this.#turnos.findOne( {fecha: fechaParam, hora: horaParam} )
+        return new Turno(dto)
     }
 
-    async asignarTurno( fecha, hora, mascota, familiar ) {
-        await this.#turnos.insertOne( new Turno ( fecha, hora, mascota, familiar ))
+    async asignarTurno( turno ) {
+        await this.#turnos.insertOne( turno.asDto() )
     }
 
     async cancelarTurno( fecha, hora) {
