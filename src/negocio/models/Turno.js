@@ -4,8 +4,14 @@ export default class Turno {
     #fecha
     #hora
 
+<<<<<<< HEAD:src/negocio/models/Turno.js
     constructor( { fecha, hora, mascota, familiar } ) {
         this.fecha = fecha
+=======
+    //TODO Desestructuracion
+    constructor( fecha, hora, mascota, familiar ) {
+        this.#fecha = fecha
+>>>>>>> master:src/Turno.js
         this.hora = hora
         this.mascota = mascota
         this.familiar = familiar
@@ -33,6 +39,7 @@ export default class Turno {
         }
         this.#hora = value
     }
+<<<<<<< HEAD:src/negocio/models/Turno.js
     asDto() {
         return Object.freeze({
             fecha: this.fecha,
@@ -42,4 +49,8 @@ export default class Turno {
         })
     }
 
+=======
+
+    // TODO AGREGAR ASDTO()
+>>>>>>> master:src/Turno.js
 }

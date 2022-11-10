@@ -7,7 +7,8 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "test": "vitest --ui",
+    "test": "vitest",
+    "testUI": "vitest --ui",
     "coverage": "vitest run --coverage"
   },
   "devDependencies": {

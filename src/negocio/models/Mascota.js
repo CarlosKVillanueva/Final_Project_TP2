@@ -1,4 +1,4 @@
-import  { requerido, esFechaValida, numerosPositivos } from "../helpers/helpers"
+import { requerido, esFechaValida, numerosPositivos } from "../helpers/helpers"
 
 export default class Mascota {
     #id
@@ -9,12 +9,18 @@ export default class Mascota {
     #peso
 
     constructor( { id, nombre, raza, fechaNacimiento, edad, peso } ) {
-        this.id = requerido(id)
-        this.nombre = requerido(nombre)
-        this.raza = requerido(raza)
-        this.fechaNacimiento = requerido(fechaNacimiento)
-        this.edad = requerido(edad)
-        this.peso = requerido(peso)
+        // this.id = requerido(id)
+        // this.nombre = requerido(nombre)
+        // this.raza = requerido(raza)
+        // this.fechaNacimiento = requerido(fechaNacimiento)
+        // this.edad = requerido(edad)
+        // this.peso = requerido(peso)
+        this.id = id
+        this.nombre = nombre
+        this.raza = raza
+        this.fechaNacimiento = fechaNacimiento
+        this.edad = edad
+        this.peso = peso
     }
 
     get edad() {
@@ -26,8 +32,9 @@ export default class Mascota {
     }
 
     set id( value ) {
-        if ( !value )
+        if ( !value ) {
             throw new Error( 'ID INVALIDO' )
+        }
         this.#id = value
     }
 
@@ -36,29 +43,31 @@ export default class Mascota {
         this.#nombre = value
     }
 
-    set raza ( value ) {
+    set raza( value ) {
         if ( !value ) throw new Error( 'RAZA INVALIDA' )
         this.#raza = value
     }
 
-    set fechaNacimiento ( fecha ) {
-        if ( !esFechaValida(fecha) )
+    set fechaNacimiento( fecha ) {
+        if ( !esFechaValida( fecha ) ) {
             throw new Error( 'FECHA INVALIDA' )
+        }
 
         this.#fechaNacimiento = fecha
     }
 
-    set edad ( value ) {
-        if ( !value || numerosPositivos(value))
-            throw new Error( 'EDAD INVALIDO' )
+    set edad( value ) {
+        if ( !value || !numerosPositivos( value ) )
+            throw new Error( 'EDAD INVALIDA' )
         this.#edad = value
     }
 
-    set peso ( value ) {
-        if ( !value || numerosPositivos(value))
+    set peso( value ) {
+        if ( !value || !numerosPositivos( value ) )
             throw new Error( 'PESO INVALIDO' )
         this.#peso = value
     }
+
 
     cambiarDatos( { nombre, raza, fechaNacimiento, edad, peso } ) {
         this.nombre = nombre;
@@ -69,13 +78,13 @@ export default class Mascota {
     }
 
     asDto() {
-        return Object.freeze({
+        return Object.freeze( {
             id: this.id,
             nombre: this.nombre,
             raza: this.raza,
             fechaNacimiento: this.fechaNacimiento,
             edad: this.edad,
             peso: this.peso,
-        })
+        } )
     }
 }
