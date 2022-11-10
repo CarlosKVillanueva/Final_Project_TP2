@@ -1,5 +1,5 @@
 import { requerido, validadorAlfabetico, validadorAlfanumerico, validadorDni, validadorMail, validadorNumerico } from "../helpers/helpers.js"
-import RegistroMascotas from "./RegistroMascotas.js"
+import RegistroMascotas from "../registros/RegistroMascotas.js"
 
 export default class Familiar {
     #dni
@@ -88,14 +88,6 @@ export default class Familiar {
 
     async asignarMascota( mascota ) {
         await this.#mascotas.registrar( mascota )
-    }
-
-    cambiarDatos( familiar ) {
-        this.nombre = familiar.nombre
-        this.apellido = familiar.apellido
-        this.email = familiar.email
-        this.telefono = familiar.telefono
-        this.direccion = familiar.direccion
     }
 
     asDto() {

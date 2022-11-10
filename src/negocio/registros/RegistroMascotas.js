@@ -1,5 +1,5 @@
 import { MongoClient } from 'mongodb'
-import { stringMongo } from "../config/config.js"
+import { stringMongo } from "../../../config/config.js"
 
 const client = new MongoClient( stringMongo, { useNewUrlParser: true, useUnifiedTopology: true } );
 
@@ -13,7 +13,7 @@ export default class RegistroMascotas {
     }
 
     async registrar( mascota ) {
-        await this.#mascotas.insertOne( mascota )
+        let variable = await this.#mascotas.insertOne( mascota )
     }
 
     async buscarPorId( idParam ) {
@@ -36,28 +36,34 @@ export default class RegistroMascotas {
                     fechaNacimiento: mascota.fechaNacimiento,
                     edad: mascota.edad,
                     peso: mascota.peso,
-                }
-            } )
-
-
-        } catch ( e ) {
-            //TODO Mejorar TODO MANEJADOR DE ERRORES
-            throw new Error( 'Error Mongo (ERROR 500)' )
+            }})
+        } catch (error) {
+            throw new Error( 'Internal server error' );
         }
+        if ( result.matchedCount === 0 ) {
+            //http bad request
+            throw new Error( "No se pudo modificar los datos porque el id esta incorrecto." );
+
+                }
 
         if ( result.matchedCount === 0 ) {
             //TODO MANEJADOR DE ERRORES
             throw new Error( "No se pudo modificar los datos porque el id esta incorrecto (ERROR 400)" );
         }
 
-
         if ( result.modifiedCount === 0 ) {
-            //TODO MANEJADOR DE ERRORES
-            throw new Error( 'Error: No pudo actualizarse, pero Id bien (ERROR 500)' )
+            //http internal server error
+            throw new Error( 'No pudo actualizarse por error de conexion a la base de datos.' )
         }
     }
 
     async listarTodas() {
-        return await this.#mascotas.find( {} )
+        let lista
+        try {
+            lista = await this.#mascotas.find().toArray()
+        } catch (error) {
+            console.error(error)
+        }
+        return lista
     }
 }

@@ -1,15 +1,15 @@
 export default class Turno {
     #mascota
     #familiar
-    #fecha
     #hora
 
+
     //TODO Desestructuracion
-    constructor( fecha, hora, mascota, familiar ) {
-        this.#fecha = fecha
+    constructor( { fecha, hora, mascota, familiar } ) {
+        this.fecha = fecha
         this.hora = hora
-        this.#mascota = mascota
-        this.#familiar = familiar
+        this.mascota = mascota
+        this.familiar = familiar
     }
 
     get mascota() {
@@ -35,5 +35,12 @@ export default class Turno {
         this.#hora = value
     }
 
-    // TODO AGREGAR ASDTO()
+    asDto() {
+        return Object.freeze({
+            fecha: this.fecha,
+            hora: this.hora,
+            mascota: this.mascota,
+            familiar: this.familiar,
+        })
+    }
 }

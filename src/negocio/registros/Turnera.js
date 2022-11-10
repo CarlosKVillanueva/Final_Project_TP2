@@ -25,4 +25,8 @@ export default class Turnera {
         const turnoBuscado = await this.buscarTurno( fecha, hora )
         await this.#turnos.deleteOne( turnoBuscado )
     }
+
+    async listarTurnos() {
+        return await this.#turnos.find().toArray()
+    }
 }
