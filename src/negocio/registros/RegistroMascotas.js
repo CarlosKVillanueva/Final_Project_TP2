@@ -1,5 +1,5 @@
 import { MongoClient } from 'mongodb'
-import { stringMongo } from "../config/config.js"
+import { stringMongo } from "../../../config/config.js"
 
 const client = new MongoClient( stringMongo, { useNewUrlParser: true, useUnifiedTopology: true } );
 
@@ -13,7 +13,7 @@ export default class RegistroMascotas {
     }
 
     async registrar( mascota ) {
-        await this.#mascotas.insertOne( mascota )
+        let variable = await this.#mascotas.insertOne( mascota )
     }
 
     async buscarPorId( idParam ) {
@@ -29,46 +29,26 @@ export default class RegistroMascotas {
     async modificarDatos( mascota ) {
         let result
         try {
-<<<<<<< HEAD:src/negocio/registros/RegistroMascotas.js
-            result = await this.#mascotas.updateOne({ id: mascota.id }, { 
-                $set:{
-=======
             result = await this.#mascotas.updateOne( { id: mascota.id }, {
                 $set: {
->>>>>>> master:src/RegistroMascotas.js
                     nombre: mascota.nombre,
                     raza: mascota.raza,
                     fechaNacimiento: mascota.fechaNacimiento,
                     edad: mascota.edad,
                     peso: mascota.peso,
-<<<<<<< HEAD:src/negocio/registros/RegistroMascotas.js
             }})
         } catch (error) {
-            throw new Error( 'Internal server error ' );
+            throw new Error( 'Internal server error' );
         }
         if ( result.matchedCount === 0 ) {
             //http bad request
             throw new Error( "No se pudo modificar los datos porque el id esta incorrecto." );
-=======
+
                 }
-            } )
-
-
-        } catch ( e ) {
-            //TODO Mejorar TODO MANEJADOR DE ERRORES
-            throw new Error( 'Error Mongo (ERROR 500)' )
-        }
 
         if ( result.matchedCount === 0 ) {
             //TODO MANEJADOR DE ERRORES
             throw new Error( "No se pudo modificar los datos porque el id esta incorrecto (ERROR 400)" );
-        }
-
-
-        if ( result.modifiedCount === 0 ) {
-            //TODO MANEJADOR DE ERRORES
-            throw new Error( 'Error: No pudo actualizarse, pero Id bien (ERROR 500)' )
->>>>>>> master:src/RegistroMascotas.js
         }
 
         if ( result.modifiedCount === 0 ) {
@@ -78,7 +58,6 @@ export default class RegistroMascotas {
     }
 
     async listarTodas() {
-<<<<<<< HEAD:src/negocio/registros/RegistroMascotas.js
         let lista
         try {
             lista = await this.#mascotas.find().toArray()
@@ -86,8 +65,5 @@ export default class RegistroMascotas {
             console.error(error)
         }
         return lista
-=======
-        return await this.#mascotas.find( {} )
->>>>>>> master:src/RegistroMascotas.js
     }
 }

@@ -17,15 +17,8 @@ export default class Turnera {
         return new Turno(dto)
     }
 
-<<<<<<< HEAD:src/negocio/registros/Turnera.js
-    async asignarTurno( fecha, hora, mascota, familiar ) {
-        const turnoCreado = new Turno ( fecha, hora, mascota, familiar );
-        await this.#turnos.insertOne( turnoCreado )
-        return turnoCreado
-=======
     async asignarTurno( turno ) {
         await this.#turnos.insertOne( turno.asDto() )
->>>>>>> master:src/Turnera.js
     }
 
     async cancelarTurno( fecha, hora) {
