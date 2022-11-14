@@ -1,5 +1,5 @@
 import { describe, test, expect } from "vitest";
-import Mascota from "../src/Mascota.js"
+import Mascota from "/src/negocio/models/Mascota.js"
 
 const mascotaValida = new Mascota( {
     id: '11234567',
@@ -13,7 +13,6 @@ const mascotaValida = new Mascota( {
 
 describe( 'Creacion de Mascota', () => {
     describe( 'con parametros validos', () => {
-        // console.log( mascotaValida )
         test( 'deberia crearla correctamente', () => {
             const mascota = new Mascota( {
                 id: '11234567',

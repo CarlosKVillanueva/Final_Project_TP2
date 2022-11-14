@@ -1,6 +1,6 @@
 import { describe, test, expect } from "vitest";
-import RegistroMascotas from "../src/RegistroMascotas.js"
-import Mascota from "../src/Mascota.js"
+import RegistroMascotas from "/src/negocio/registros/RegistroMascotas.js"
+import Mascota from '/src/negocio/models/Mascota.js'
 
 
 const mascotaValida = new Mascota({
