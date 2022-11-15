@@ -4,26 +4,31 @@ const HORARIO_CIERRE = 18
 
 export function requerido( campo ) {
     if ( !campo ) throw new Error( `El ${ campo } es obligatorio` )
+    console.log(typeof campo)
+    return campo
 }
 
 export function validadorAlfabetico( valor ) {
-    return !valor.match( /^[a-zA-Z\-]+$/ )
+    return valor.match( /^[a-zA-Z\-]+$/ )
 }
 
 export function validadorDni( valor ) {
-    return !valor.match( /^\d{1,3}\.?\d{3}\.?\d{3}$/ )
+    if ( valor.length < 7 || valor.length >= 9 ) {
+        throw new Error( 'Dni invalido, solo disponible ente 7 y 8 caracteres' )
+    }
+
 }
 
 export function validadorMail( valor ) {
-    return !valor.match( /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/ )
+    return valor.match( /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/ )
 }
 
 export function validadorAlfanumerico( valor ) {
-    return !valor.match( /^[a-zA-Z0-9]*$/ )
+    return valor.match( /^[a-zA-Z0-9]*$/ )
 }
 
 export function validadorNumerico( valor ) {
-    return !valor.match( /^[0-9]*$/ )
+    return valor.match( /^[0-9]*$/ )
 }
 
 export function esFechaValida( fecha ) {
@@ -42,19 +47,9 @@ export function numerosPositivos( valor ) {
 }
 
 export function esMascotaValida( { id, nombre, raza, fechaNacimiento, edad, peso } ) {
-    if ( validadorAlfanumerico( id ) ) return false
-    if ( validadorAlfabetico( nombre ) ) return false
-    if ( validadorAlfabetico( raza ) ) return false
-    if ( esFechaValida( fechaNacimiento ) ) return false
-    if ( validadorNumerico( edad ) ) return false
-    if ( validadorNumerico( peso ) ) return false
+    return validadorAlfanumerico( id ) && validadorAlfabetico( nombre ) && validadorAlfabetico( raza ) && esFechaValida( fechaNacimiento ) && validadorNumerico( edad ) && validadorNumerico( peso )
 }
 
 export function esFamiliarValido( { dni, nombre, apellido, email, telefono, direccion } ) {
-    if ( validadorDni( dni ) ) return false
-    if ( validadorAlfabetico( nombre ) ) return false
-    if ( validadorAlfabetico( apellido ) ) return false
-    if ( validadorMail( email ) ) return false
-    if ( validadorNumerico( telefono ) ) return false
-    if ( validadorAlfanumerico( direccion ) ) return false
+    return validadorDni( dni ) && validadorAlfabetico( nombre ) && validadorAlfabetico( apellido ) && validadorMail( email ) && validadorNumerico( telefono ) && validadorAlfanumerico( direccion )
 }

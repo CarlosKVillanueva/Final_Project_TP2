@@ -9,8 +9,6 @@ const mascotaValida = new Mascota( {
     edad: 2,
     peso: 30
 } )
-
-
 describe( 'Creacion de Mascota', () => {
     describe( 'con parametros validos', () => {
         test( 'deberia crearla correctamente', () => {
@@ -28,22 +26,24 @@ describe( 'Creacion de Mascota', () => {
         describe( 'con parametros invalidos', () => {
             describe( 'con id invalido', () => {
                 test( 'arroja el error "ID INVALIDO"', () => {
-                    expect( () => new Mascota( { id: '' } ) ).toThrowError( 'ID INVALIDO' )
+                    expect( () => new Mascota( { id: '' } ) ).toThrowError( 'El  es obligatorio' )
                 } )
             } )
 
             describe( 'con nombre invalido', () => {
                 test( 'arroja el error "NOMBRE INVALIDO"', () => {
-                    expect( () => new Mascota( { id: '111111', nombre: '' } ) ).toThrowError( 'NOMBRE INVALIDO' )
+                    expect( () => new Mascota( { id: '111111', nombre: '' } ) ).toThrowError( 'El  es obligatorio' )
                 } )
             } )
 
             describe( 'con raza invalido', () => {
                 test( 'arroja el error "RAZA INVALIDO"', () => {
-                    expect( () => new Mascota( { id: '123456', nombre: 'Firulais', raza: '' } ) ).toThrowError( 'RAZA INVALIDA' )
+                    expect( () => new Mascota( { id: '123456', nombre: 'Firulais', raza: '' } ) ).toThrowError( 'El  es obligatorio' )
                 } )
             } )
         } )
+
+
 
     } )
 } )

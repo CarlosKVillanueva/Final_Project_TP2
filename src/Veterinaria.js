@@ -1,10 +1,10 @@
-import Mascota from "./Mascota.js"
-import Familiar from "./Familiar.js"
-import RegistroMascotas from "./RegistroMascotas.js"
-import Turnera from "./Turnera.js"
-import RegistroFamiliares from "./RegistroFamiliares.js"
-import { esFamiliarValido, esFechaValida, esHoraValida, esMascotaValida, validadorDni, validadorNumerico } from "../helpers/helpers.js"
-import Turno from "./Turno.js"
+import Mascota from "./negocio/models/Mascota.js"
+import Familiar from "./negocio/models/Familiar.js"
+import RegistroMascotas from "./negocio/registros/RegistroMascotas.js"
+import Turnera from "./negocio/registros/Turnera.js"
+import RegistroFamiliares from "./negocio/registros/RegistroFamiliares.js"
+import { esFamiliarValido, esFechaValida, esHoraValida, esMascotaValida, validadorDni, validadorNumerico } from "./negocio/helpers/helpers.js"
+import Turno from "./negocio/models/Turno.js"
 
 export default class Veterinaria {
     #nombre
@@ -19,35 +19,6 @@ export default class Veterinaria {
         this.#turnera = new Turnera()
     }
 
-    async sacarTurno( fecha, hora, mascota, familiar ) {
-
-        let familiarBuscado = await this.#registroFamiliares.buscarPorDni( familiar )
-        if ( !familiarBuscado ) {
-            familiarBuscado = new Familiar( familiar )
-            await this.#registroFamiliares.registrar( familiarBuscado )
-        }
-
-        const nombreMascota = mascota.nombre
-        const idMascota = `${ familiarBuscado.dni }-${ nombreMascota }`
-        let mascotaBuscada = await this.#registroMascotas.buscarPorId( idMascota )
-
-        if ( !mascotaBuscada ) {
-            mascotaBuscada = new Mascota( mascota )
-            await this.#registroMascotas.registrar( mascotaBuscada )
-            await familiar.asignarMascota( mascotaBuscada )
-        }
-
-        if ( !esFechaValida( fecha ) )
-            throw new Error( `La fecha: ${ fecha } es invalida` )
-
-        if ( !esHoraValida( hora ) )
-            throw new Error( `La hora: ${ hora } es invalida` )
-
-        if ( await this.#turnera.buscarTurno( fecha, hora ) ) {
-            throw new Error( `No contamos con un turno disponible el ${ fecha } a las ${ hora } hs.` )
-        }
-        await this.#turnera.asignarTurno( new Turno ( fecha, hora, mascota, familiar ) )
-    }
 
     async cancelarTurno( fecha, hora ) {
         if ( !esFechaValida( fecha ) )

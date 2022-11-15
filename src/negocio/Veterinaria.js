@@ -1,10 +1,13 @@
-import Mascota from "./Mascota.js"
+import Mascota from "./models/Mascota.js"
 import Familiar from "./models/Familiar.js"
 import RegistroMascotas from "./registros/RegistroMascotas.js"
-import Turnera from "./Turnera.js"
+import Turnera from "./registros/Turnera.js"
 import RegistroFamiliares from "./registros/RegistroFamiliares.js"
-import { esFechaValida } from "./helpers/helpers.js"
+import { esFechaValida, esHoraValida } from "./helpers/helpers.js"
+import Turno from "./models/Turno.js"
 
+
+//TODO NOS QUEDAMOS CON ESTA!
 export default class Veterinaria {
     #nombre
     #registroFamiliares
@@ -18,53 +21,59 @@ export default class Veterinaria {
         this.#turnera = new Turnera()
     }
 
-    async sacarTurno( fecha, hora, nombreMascota, dniFamiliar, nombreFamiliar, telefonoFamiliar ) {
+    async sacarTurno( fecha, hora, mascota, familiar ) {
 
-        let familiar = this.#registroFamiliares.buscarPorDni( dniFamiliar )
-        if ( !familiar ) {
-            familiar = new Familiar( { dni: dniFamiliar, nombre: nombreFamiliar, telefono: telefonoFamiliar } )
-            this.#registroFamiliares.registrar( familiar )
+        let familiarBuscado = await this.#registroFamiliares.buscarPorDni( familiar )
+        if ( !familiarBuscado ) {
+            familiarBuscado = new Familiar( familiar )
+            await this.#registroFamiliares.registrar( familiarBuscado )
         }
 
-        const idMascota = `${ dniFamiliar }-${ nombreMascota }`
-        let mascota = this.#registroMascotas.buscarPorId( idMascota )
+        const nombreMascota = mascota.nombre
+        const idMascota = `${ familiarBuscado.dni }-${ nombreMascota }`
+        let mascotaBuscada = await this.#registroMascotas.buscarPorId( idMascota )
 
-        if ( !mascota ) {
-            mascota = new Mascota( { id: idMascota, nombre: nombreMascota } )
-            this.#registroMascotas.registrar( mascota )
-            familiar.asignarMascota( mascota )
+        if ( !mascotaBuscada ) {
+            mascotaBuscada = new Mascota( mascota )
+            await this.#registroMascotas.registrar( mascotaBuscada )
+            await familiar.asignarMascota( mascotaBuscada )
         }
 
-        // Si fecha y hora son validas y el turno no existe es porque no esta reservado en esa hora
+        if ( !esFechaValida( fecha ) )
+            throw new Error( `La fecha: ${ fecha } es invalida` )
 
-        if ( esFechaValida( fecha ) && esHoraValida( hora)) {
+        if ( !esHoraValida( hora ) )
+            throw new Error( `La hora: ${ hora } es invalida` )
 
-        }
-
-        if ( !this.#turnera.buscarTurno( fecha, hora ) ) {
+        if ( await this.#turnera.buscarTurno( fecha, hora ) ) {
             throw new Error( `No contamos con un turno disponible el ${ fecha } a las ${ hora } hs.` )
         }
-        const turnoReservado = await this.#turnera.asignarTurno( fecha, hora, mascota, familiar )
-        return turnoReservado
+        const turno = { fecha, hora, mascota, familiar }
+        await this.#turnera.asignarTurno( new Turno( turno ) )
     }
 
-    async listarTurnos(){
+    async listarTurnos() {
         return await this.#turnera.listarTurnos()
     }
 
     async cancelarTurno( fecha, hora ) {
-        await this.#turnera.cancelarTurno( fecha, hora )
+        try {
+            if ( !await this.#turnera.buscarTurno( fecha, hora ) ) {
+                await this.#turnera.cancelarTurno( fecha, hora )
+            }
+        } catch ( e ) {
+
+        }
     }
 
     // ------------    CRUD MASCOTAS     ------------- //
 
     async listarMascotas() {
-        const lista = await this.#registroMascotas.listarTodas()
-        return lista
+        return await this.#registroMascotas.listarTodas()
     }
 
     async registrarMascota( mascota ) {
-        this.#registroMascotas.registrar( mascota )
+        await this.#registroMascotas.registrar( mascota )
     }
 
     async modificarDatosDeLaMascota( mascota ) {
@@ -77,7 +86,7 @@ export default class Veterinaria {
 
     // ------------    CRUD FAMILIARES     ------------- //
 
-    async modificarDatosDelFamiliar ( familiar ) {
+    async modificarDatosDelFamiliar( familiar ) {
         await this.#registroFamiliares.modificarDatos( familiar )
     }
 
@@ -86,8 +95,7 @@ export default class Veterinaria {
     }
 
     async listarFamiliar() {
-        const lista = await this.#registroMascotas.listarTodas()
-        return lista
+        return await this.#registroMascotas.listarTodas()
     }
 
     async registrarFamiliar( familiar ) {

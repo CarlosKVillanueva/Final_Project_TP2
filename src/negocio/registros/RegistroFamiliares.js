@@ -43,12 +43,10 @@ export default class RegistroFamiliares {
         }
 
         if ( result.matchedCount === 0 ) {
-            //http bad request
             throw new Error( "No se pudo modificar los datos porque el dni es incorrecto." );
         }
 
         if ( result.modifiedCount === 0 ) {
-            //http internal server error
             throw new Error( 'No pudo actualizarse por error de conexion a la base de datos.' )
         }
     }

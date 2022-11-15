@@ -25,14 +25,13 @@ export default class Familiar {
     }
 
     set dni( dni ) {
-        if ( validadorDni( dni ) ) {
-            throw new Error( 'Dni invalido, solo disponible ente 7 y 8 caracteres' )
-        }
+
+        validadorDni( dni )
         this.#dni = dni
     }
 
     get nombre() {
-        return this.#dni
+        return this.#nombre
     }
 
     set nombre( nombre ) {

@@ -1,13 +1,12 @@
 import express from "express";
-import router from "./routers";
 import { clasificarUsuarios } from "./middlewares";
-import multer from "multer";
+// import multer from "multer";
 import routerTurnos from "./routers";
 import routerFamiliares from "./routers";
 import routerMascotas from "./routers";
 
 const app = express();
-app.use(express.json);
+app.use(express.json());
 
 app.use(clasificarUsuarios);
 app.use("/api/turnos", routerTurnos);

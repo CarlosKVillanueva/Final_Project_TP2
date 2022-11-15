@@ -17,10 +17,10 @@ describe( 'Registro de Mascota', () => {
     describe( 'si guardo una Mascota', () => {
 
 
-        test( 'should sarasa', () => {
+        test.skip( 'should sarasa', () => {
 
         } )
-        test( 'cuando la busco por id deberia devolver exactamente la misma', async () => {
+        test.skip( 'cuando la busco por id deberia devolver exactamente la misma', async () => {
             const mascotas = new RegistroMascotas()
             console.log('Mascota Valida:', mascotaValida)
             const mascotaGuardada = await mascotas.registrar( mascotaValida )
