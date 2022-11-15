@@ -3,20 +3,22 @@ const HORARIO_APERTURA = 9
 const HORARIO_CIERRE = 18
 
 export function requerido( campo ) {
-    if ( !campo ) throw new Error( `El ${ campo } es obligatorio` )
-    console.log(typeof campo)
+    if ( !campo )
+        throw new Error( `El campo es obligatorio` )
     return campo
 }
 
 export function validadorAlfabetico( valor ) {
-    return valor.match( /^[a-zA-Z\-]+$/ )
+    return valor.match( /^[a-z A-Z\-]+$/ )
 }
 
 export function validadorDni( valor ) {
     if ( valor.length < 7 || valor.length >= 9 ) {
         throw new Error( 'Dni invalido, solo disponible ente 7 y 8 caracteres' )
     }
-
+    if ( !validadorNumerico(valor) ) {
+        throw new Error( 'El Dni solo acepta caracteres numericos')
+    }
 }
 
 export function validadorMail( valor ) {

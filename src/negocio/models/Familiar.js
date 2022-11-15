@@ -25,7 +25,6 @@ export default class Familiar {
     }
 
     set dni( dni ) {
-
         validadorDni( dni )
         this.#dni = dni
     }
@@ -35,7 +34,7 @@ export default class Familiar {
     }
 
     set nombre( nombre ) {
-        if ( validadorAlfabetico( nombre ) ) {
+        if ( !validadorAlfabetico( nombre ) ) {
             throw new Error( 'Nombre invalido' )
         }
         this.#nombre = nombre
@@ -46,7 +45,7 @@ export default class Familiar {
     }
 
     set apellido( apellido ) {
-        if ( validadorAlfabetico( apellido ) ) {
+        if ( !validadorAlfabetico( apellido ) ) {
             throw new Error( 'Apellido invalido' )
         }
         this.#apellido = apellido
@@ -57,7 +56,7 @@ export default class Familiar {
     }
 
     set email( email ) {
-        if ( validadorMail( email ) ) {
+        if ( !validadorMail( email ) ) {
             throw new Error( 'Email invalido, ingrese una direccion correcta' )
         }
         this.#email = email
@@ -68,7 +67,7 @@ export default class Familiar {
     }
 
     set telefono( value ) {
-        if ( validadorNumerico( value ) ) {
+        if ( !validadorNumerico( value ) ) {
             throw new Error( 'Telefono invalido' )
         }
         this.#telefono = value
@@ -79,7 +78,7 @@ export default class Familiar {
     }
 
     set direccion( value ) {
-        if ( validadorAlfanumerico( value ) ) {
+        if ( !validadorAlfanumerico( value ) ) {
             throw new Error( 'Direccion invalida' )
         }
         this.#direccion = value
