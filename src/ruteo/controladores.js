@@ -21,7 +21,7 @@ export async function controladorGetReservaTurno(req, res, next){
 
 export async function controladorPostMascotas(req, res, next) {
     try {
-        const dtosMascotasReservado = await veterinaria.agregarMascota(req.body)
+        const dtosMascotasReservado = await veterinaria.registrarMascota(req.body)
         res.json(dtosMascotasReservado)
     } catch (e){
         next(e)
@@ -39,7 +39,7 @@ export async function controladorGetMascotas(req, res, next){
 
 export async function controladorPostFamiliares(req, res, next) {
     try {
-        const dtoFamiliarCreado = await veterinaria.registrar(req.body)
+        const dtoFamiliarCreado = await veterinaria.registrarFamiliar(req.body)
         res.json(dtoFamiliarCreado)
     } catch (error) {
         next(error)

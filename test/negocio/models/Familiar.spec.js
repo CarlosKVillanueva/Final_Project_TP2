@@ -1,5 +1,5 @@
 import { describe, expect, test } from "vitest"
-import Familiar from "../../../src/negocio/models/Familiar.js"
+import Familiar from "/src/negocio/models/Familiar.js"
 
 const familiarInvalido = {
     dni: '',

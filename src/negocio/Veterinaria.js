@@ -6,8 +6,6 @@ import RegistroFamiliares from "./registros/RegistroFamiliares.js"
 import { esFechaValida, esHoraValida } from "./helpers/helpers.js"
 import Turno from "./models/Turno.js"
 
-
-//TODO NOS QUEDAMOS CON ESTA!
 export default class Veterinaria {
     #nombre
     #registroFamiliares
@@ -86,7 +84,13 @@ export default class Veterinaria {
 
     // ------------    CRUD FAMILIARES     ------------- //
 
-    async modificarDatosDelFamiliar( familiar ) {
+    async listarFamiliares() {
+        return await this.#registroMascotas.listarTodas()
+    }
+    async registrarFamiliar( familiar ) {
+        await this.#registroFamiliares.registrar( familiar )
+    }
+    async modificarDatosFamiliar( familiar ) {
         await this.#registroFamiliares.modificarDatos( familiar )
     }
 
@@ -94,13 +98,7 @@ export default class Veterinaria {
         await this.#registroFamiliares.eliminarRegistro( dni )
     }
 
-    async listarFamiliar() {
-        return await this.#registroMascotas.listarTodas()
-    }
 
-    async registrarFamiliar( familiar ) {
-        await this.#registroFamiliares.registrar( familiar )
-    }
 }
 
 
