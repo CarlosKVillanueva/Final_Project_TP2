@@ -114,7 +114,7 @@ describe( 'CON DATOS INVALIDOS', () => {
                 apellido: 'Doe',
                 email: 'johndoe@mail.com',
                 telefono: '11234567',
-                direccion: 'Av Siempreviva 1234',
+                direccion: '^%&@#',
             } ) ).toThrowError( /invalid/ )
         } )
     } )

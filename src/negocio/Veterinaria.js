@@ -46,8 +46,7 @@ export default class Veterinaria {
         if ( await this.#turnera.buscarTurno( fecha, hora ) ) {
             throw new Error( `No contamos con un turno disponible el ${ fecha } a las ${ hora } hs.` )
         }
-        const turno = { fecha, hora, mascota, familiar }
-        await this.#turnera.asignarTurno( new Turno( turno ) )
+        await this.#turnera.asignarTurno( new Turno( fecha, hora, mascota, familiar ) )
     }
 
     async listarTurnos() {

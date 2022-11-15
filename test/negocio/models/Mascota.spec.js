@@ -9,8 +9,8 @@ const mascotaValida = new Mascota( {
     edad: 2,
     peso: 30
 } )
-describe( 'Creacion de Mascota', () => {
 
+describe( 'Creacion de Mascota', () => {
     describe( 'CON CAMPOS VACIOS', () => {
         describe( 'con id vacio', () => {
             test( 'arroja un error informando la obligatoriedad del campo', () => {
@@ -97,7 +97,7 @@ describe( 'Creacion de Mascota', () => {
                     fechaNacimiento: '2020-01-01',
                     edad: 2,
                     peso: 30
-                } ) ).toThrowError( /invalido/ )
+                } ) ).toThrowError( /invalid/ )
             } )
         } )
 
@@ -145,9 +145,9 @@ describe( 'Creacion de Mascota', () => {
 describe( 'CON PARAMETROS VALIDOS', () => {
     test( 'deberia crear una mascota correctamente', () => {
         const mascota = new Mascota( {
-            id: '11234567',
+            id: '12345678',
             nombre: 'Firulais',
-            raza: 'PP',
+            raza: 'Puro Perro',
             fechaNacimiento: '2020-01-01',
             edad: 2,
             peso: 30

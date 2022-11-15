@@ -1,34 +1,27 @@
-import { describe, test, expect } from "vitest";
+import { describe, test, expect, beforeEach } from "vitest";
 import RegistroMascotas from "/src/negocio/registros/RegistroMascotas.js"
-import Mascota from '/src/negocio/models/Mascota.js'
 
-
-const mascotaValida = new Mascota({
-    id: '11234567',
+const mascotaValida = {
+    id: '12345678',
     nombre: 'Firulais',
-    raza: 'PP',
-    fechaNacimiento: '2020-01-01',
-    edad: 2,
-    peso: 30
-})
+    raza: 'Puro Perro',
+    fechaNacimiento: '2018-01-01',
+    edad: 4,
+    peso: 40
+}
 
 
-describe( 'Registro de Mascota', () => {
+describe( 'REGISTRO DE MASCOTA', () => {
+    const mascotas = new RegistroMascotas()
     describe( 'si guardo una Mascota', () => {
-
-
-        test.skip( 'should sarasa', () => {
-
+        beforeEach( async () => {
+            await mascotas.limpiarMDB()
         } )
-        test.skip( 'cuando la busco por id deberia devolver exactamente la misma', async () => {
-            const mascotas = new RegistroMascotas()
-            console.log('Mascota Valida:', mascotaValida)
-            const mascotaGuardada = await mascotas.registrar( mascotaValida )
-            console.log('Mascota Guardada:', mascotaGuardada)
-            const mascotaEncontrada = await mascotas.buscarPorId( mascotaValida.id )
-            console.log('Mascota Encontrada', mascotaEncontrada)
-            expect( mascotaValida.id ).toStrictEqual( mascotaEncontrada.id )
-            //TODO CONSTRUCTORES que reciben objetos
+
+        test( 'cuando la busco por id deberia devolver exactamente la misma', async () => {
+            await mascotas.registrar( mascotaValida )
+            const mascotaBuscada = await mascotas.buscarPorId( mascotaValida.id )
+            expect( mascotaValida.id ).toStrictEqual( mascotaBuscada[ 0 ].id )
         } )
     } )
 } )

@@ -13,13 +13,11 @@ export default class RegistroMascotas {
     }
 
     async registrar( mascota ) {
-        await this.#mascotas.insertOne( mascota )
+        return await this.#mascotas.insertOne( mascota )
     }
 
     async buscarPorId( idParam ) {
-        //TODO CLASE 8
-        // return new Mascota(await this.#mascotas.find( { id: idParam } ))
-        return await this.#mascotas.find( { id: idParam } ).toArray()
+        return await this.#mascotas.find( { "id": idParam } ).toArray()
     }
 
     async eliminarMascota( id ) {
@@ -62,5 +60,9 @@ export default class RegistroMascotas {
             console.error( error )
         }
         return lista
+    }
+
+    async limpiarMDB() {
+        this.#mascotas.remove({})
     }
 }

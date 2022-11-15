@@ -23,7 +23,7 @@ export default class RegistroFamiliares {
     }
 
     async buscarPorDni( dniParam ) {
-        return await this.#familiares.findOne( {dni: dniParam})
+        return await this.#familiares.find( { "dni": dniParam } ).toArray()
     }
 
     async modificarDatos ( familiar ) {
@@ -60,5 +60,9 @@ export default class RegistroFamiliares {
 
     async listarFamiliares() {
         return await this.#familiares.find().toArray()
+    }
+
+    async limpiarMDB() {
+        this.#familiares.remove({})
     }
 }

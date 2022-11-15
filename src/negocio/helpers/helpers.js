@@ -13,7 +13,7 @@ export function validadorAlfabetico( valor ) {
 }
 
 export function validadorDni( valor ) {
-    if ( valor.length < 7 || valor.length >= 9 ) {
+    if ( valor.length < 7 || valor.length > 9 ) {
         throw new Error( 'Dni invalido, solo disponible ente 7 y 8 caracteres' )
     }
     if ( !validadorNumerico(valor) ) {
@@ -26,7 +26,7 @@ export function validadorMail( valor ) {
 }
 
 export function validadorAlfanumerico( valor ) {
-    return valor.match( /^[a-zA-Z0-9]*$/ )
+    return valor.match( /^[a-z A-Z0-9]*$/ )
 }
 
 export function validadorNumerico( valor ) {
@@ -49,9 +49,9 @@ export function numerosPositivos( valor ) {
 }
 
 export function esMascotaValida( { id, nombre, raza, fechaNacimiento, edad, peso } ) {
-    return validadorAlfanumerico( id ) && validadorAlfabetico( nombre ) && validadorAlfabetico( raza ) && esFechaValida( fechaNacimiento ) && validadorNumerico( edad ) && validadorNumerico( peso )
+    return validadorAlfanumerico( id ) && validadorAlfabetico( nombre ) && validadorAlfabetico( raza ) && esFechaValida( fechaNacimiento ) && numerosPositivos( edad ) && numerosPositivos( peso )
 }
 
 export function esFamiliarValido( { dni, nombre, apellido, email, telefono, direccion } ) {
-    return validadorDni( dni ) && validadorAlfabetico( nombre ) && validadorAlfabetico( apellido ) && validadorMail( email ) && validadorNumerico( telefono ) && validadorAlfanumerico( direccion )
+    return !validadorDni( dni ) && validadorAlfabetico( nombre ) && validadorAlfabetico( apellido ) && validadorMail( email ) && validadorNumerico( telefono ) && validadorAlfanumerico( direccion )
 }

@@ -13,12 +13,11 @@ export default class Turnera {
     }
 
     async buscarTurno( fechaParam, horaParam ) {
-        const dto = await this.#turnos.findOne( { fecha: fechaParam, hora: horaParam } )
-        return new Turno( dto )
+        return await this.#turnos.findOne( { "fecha": fechaParam, "hora": horaParam } )
     }
 
     async asignarTurno( turno ) {
-        await this.#turnos.insertOne( turno.asDto() )
+        await this.#turnos.insertOne( turno )
     }
 
     async cancelarTurno( fecha, hora ) {
@@ -34,5 +33,9 @@ export default class Turnera {
 
     async listarTurnos() {
         return await this.#turnos.find().toArray()
+    }
+
+    async limpiarMDB() {
+        this.#turnos.remove({})
     }
 }
