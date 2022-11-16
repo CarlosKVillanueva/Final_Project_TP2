@@ -1,9 +1,9 @@
 import express from "express";
-import { clasificarUsuarios } from "./middlewares";
+import { clasificarUsuarios } from "./middlewares.js";
 // import multer from "multer";
-import routerTurnos from "./routers";
-import routerFamiliares from "./routers";
-import routerMascotas from "./routers";
+import routerTurnos from "./routers.js";
+import routerFamiliares from "./routers.js";
+import routerMascotas from "./routers.js";
 
 const app = express();
 app.use( express.json() );

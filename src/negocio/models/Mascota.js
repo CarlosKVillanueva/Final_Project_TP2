@@ -1,4 +1,4 @@
-import { requerido, esFechaValida, numerosPositivos, validadorAlfanumerico, validadorAlfabetico } from "../helpers/helpers"
+import { requerido, esFechaValida, numerosPositivos, validadorAlfanumerico, validadorAlfabetico } from "../helpers/helpers.js"
 
 export default class Mascota {
     #id

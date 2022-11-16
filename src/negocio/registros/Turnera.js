@@ -1,5 +1,5 @@
 import { MongoClient } from 'mongodb'
-import { stringMongo } from "config/config.js"
+import { stringMongo } from "../../../config/config.js"
 
 const client = new MongoClient( stringMongo, { useNewUrlParser: true, useUnifiedTopology: true } );
 

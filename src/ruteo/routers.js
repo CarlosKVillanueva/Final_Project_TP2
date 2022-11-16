@@ -6,7 +6,7 @@ import {
     controladorGetFamiliares,
     controladorPostMascotas,
     controladorGetMascotas,
-} from "./controladores";
+} from "./controladores.js";
 
 const router = new Router();
 
