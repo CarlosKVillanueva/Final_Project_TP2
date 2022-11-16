@@ -20,21 +20,21 @@ export default class Veterinaria {
     }
 
     async sacarTurno( fecha, hora, mascota, familiar ) {
-
-        let familiarBuscado = await this.#registroFamiliares.buscarPorDni( familiar )
+        // TODO Posicion 0 del Array o hay otra forma?
+        // TODO let familiarBuscado = await this.#registroFamiliares.buscarPorDni( familiar.dni )[0]
+        let familiarBuscado = await this.#registroFamiliares.buscarPorDni( familiar.dni )
         if ( !familiarBuscado ) {
             familiarBuscado = new Familiar( familiar )
             await this.#registroFamiliares.registrar( familiarBuscado )
         }
 
-        const nombreMascota = mascota.nombre
-        const idMascota = `${ familiarBuscado.dni }-${ nombreMascota }`
-        let mascotaBuscada = await this.#registroMascotas.buscarPorId( idMascota )
+        // TODO Posicion 0 del Array o hay otra forma?
+        // TODO let mascotaBuscada = await this.#registroMascotas.buscarPorId( mascota.id )[0]
+        let mascotaBuscada = await this.#registroMascotas.buscarPorId( mascota.id )
 
         if ( !mascotaBuscada ) {
             mascotaBuscada = new Mascota( mascota )
             await this.#registroMascotas.registrar( mascotaBuscada )
-            await familiar.asignarMascota( mascotaBuscada )
         }
 
         if ( !esFechaValida( fecha ) )
@@ -46,7 +46,7 @@ export default class Veterinaria {
         if ( await this.#turnera.buscarTurno( fecha, hora ) ) {
             throw new Error( `No contamos con un turno disponible el ${ fecha } a las ${ hora } hs.` )
         }
-        await this.#turnera.asignarTurno( new Turno( fecha, hora, mascota, familiar ) )
+        await this.#turnera.asignarTurno( new Turno( { fecha, hora, mascota, familiar } ) )
     }
 
     async listarTurnos() {
@@ -93,8 +93,8 @@ export default class Veterinaria {
         await this.#registroFamiliares.modificarDatos( familiar )
     }
 
-    async eliminarRegistroFamiliar( { dni } ) {
-        await this.#registroFamiliares.eliminarRegistro( dni )
+    async eliminarRegistroFamiliar( familiar  ) {
+        await this.#registroFamiliares.eliminarRegistro( familiar )
     }
 
 

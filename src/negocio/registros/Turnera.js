@@ -23,11 +23,11 @@ export default class Turnera {
     async cancelarTurno( fecha, hora ) {
         let result
         try {
-            result = await this.#turnos.findOne( { fecha, hora } )
+            result = await this.buscarTurno( fecha, hora )
         } catch ( e ) {
         }
         if ( result.deletedCount === 0 ) {
-            await this.#turnos.deleteOne( turnoBuscado )
+            await this.#turnos.deleteOne( result )
         }
     }
 

@@ -14,12 +14,8 @@ export default class RegistroFamiliares {
     }
 
     async registrar(familiar) {
-        let result
-        try {
-            result = await this.#familiares.insertOne( familiar )
-        } catch (e) {
-            console.error(e);
-        }
+        return await this.#familiares.insertOne( familiar )
+
     }
 
     async buscarPorDni( dniParam ) {
@@ -51,8 +47,8 @@ export default class RegistroFamiliares {
         }
     }
 
-    async eliminarRegistro( familiar ) {
-        let result = await this.#familiares.deleteOne( familiar )
+    async eliminarRegistro( { dni } ) {
+        let result = await this.#familiares.deleteOne( dni )
         if ( result.deletedCount === 0 ) {
             throw new Error( 'No se pudo eliminar al familiar.' )
         }

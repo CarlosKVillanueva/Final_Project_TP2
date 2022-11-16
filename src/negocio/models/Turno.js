@@ -33,6 +33,8 @@ export default class Turno {
         this.#fecha = value
     }
 
+
+    // TODO es necesaria la validacion? teniendo la del modelo?
     set mascota( mascota ) {
         if ( !esMascotaValida( mascota ) ) {
             throw new Error( 'La mascota es Invalida' )
@@ -40,6 +42,7 @@ export default class Turno {
         this.#mascota = mascota
     }
 
+    // TODO idem
     set familiar( familiar ) {
         if ( !esFamiliarValido( familiar ) ) {
             throw new Error( 'El familiar es invalido' )

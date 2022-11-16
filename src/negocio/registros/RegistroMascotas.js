@@ -20,7 +20,7 @@ export default class RegistroMascotas {
         return await this.#mascotas.find( { "id": idParam } ).toArray()
     }
 
-    async eliminarMascota( id ) {
+    async eliminarMascota( { id } ) {
         await this.#mascotas.deleteOne( id )
     }
 
