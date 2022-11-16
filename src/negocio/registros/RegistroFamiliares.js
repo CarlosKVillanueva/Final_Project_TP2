@@ -58,6 +58,16 @@ export default class RegistroFamiliares {
         return await this.#familiares.find().toArray()
     }
 
+    async listarTodas() {
+        let lista
+        try {
+            lista = await this.#familiares.find().toArray()
+        } catch ( error ) {
+            console.error( error )
+        }
+        return lista
+    }
+
     async limpiarMDB() {
         this.#familiares.remove({})
     }

@@ -84,7 +84,7 @@ export default class Veterinaria {
     // ------------    CRUD FAMILIARES     ------------- //
 
     async listarFamiliares() {
-        return await this.#registroMascotas.listarTodas()
+        return await this.#registroFamiliares.listarTodas()
     }
     async registrarFamiliar( familiar ) {
         await this.#registroFamiliares.registrar( familiar )
