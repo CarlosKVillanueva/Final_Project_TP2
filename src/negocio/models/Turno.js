@@ -61,8 +61,8 @@ export default class Turno {
         return Object.freeze( {
             fecha: this.fecha,
             hora: this.hora,
-            mascota: this.mascota,
-            familiar: this.familiar,
+            mascota: this.mascota.asDto(),
+            familiar: this.familiar.asDto(),
         } )
     }
 }

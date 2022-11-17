@@ -1,40 +1,43 @@
 import { MongoClient } from 'mongodb'
+import Familiar from "../models/Familiar.js"
+import Mascota from "../models/Mascota.js"
 
 const uri = "mongodb+srv://veterinariaTP2:LERIzSJ7jtuZKcns@veterinariatp2.6ptwb5y.mongodb.net/?retryWrites=true&w=majority";
-    
-const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
-    
+
+const client = new MongoClient( uri, { useNewUrlParser: true, useUnifiedTopology: true } );
+
 await client.connect()
 
 export default class RegistroFamiliares {
     #familiares
 
     constructor() {
-        this.#familiares = client.db("VeterinariaTP2").collection("familiares")
+        this.#familiares = client.db( "VeterinariaTP2" ).collection( "familiares" )
     }
 
-    async registrar(familiar) {
-        return await this.#familiares.insertOne( familiar )
-
+    async registrar( familiar ) {
+        return await this.#familiares.insertOne( familiar.asDto() )
     }
 
     async buscarPorDni( dniParam ) {
-        return await this.#familiares.find( { "dni": dniParam } ).toArray()
+        const dto = await this.#familiares.findOne( { "dni": dniParam } )
+        return new Familiar( dto )
     }
 
-    async modificarDatos ( familiar ) {
+    async modificarDatos( familiar ) {
         let result
         try {
-            result = await this.#familiares.updateOne({ dni: familiar.dni }, { 
-                $set:{
+            result = await this.#familiares.updateOne( { dni: familiar.dni }, {
+                $set: {
                     dni: familiar.dni,
                     nombre: familiar.nombre,
                     apellido: familiar.apellido,
                     email: familiar.email,
                     telefono: familiar.telefono,
                     direccion: familiar.direccion,
-            }})
-        } catch (error) {
+                }
+            } )
+        } catch ( error ) {
             throw new Error( 'Internal server error ' );
         }
 
@@ -54,21 +57,18 @@ export default class RegistroFamiliares {
         }
     }
 
-    async listarFamiliares() {
-        return await this.#familiares.find().toArray()
-    }
-
     async listarTodas() {
         let lista
         try {
-            lista = await this.#familiares.find().toArray()
+            const dtos = await this.#familiares.find().toArray()
+            lista = dtos.map( d => new Familiar( d ) )
         } catch ( error ) {
-            console.error( error )
+            throw new Error( 'Internal server error' );
         }
         return lista
     }
 
     async limpiarMDB() {
-        this.#familiares.remove({})
+        await this.#familiares.remove( {} )
     }
 }

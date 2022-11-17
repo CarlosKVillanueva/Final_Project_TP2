@@ -19,17 +19,14 @@ export default class Veterinaria {
         this.#turnera = new Turnera()
     }
 
-    async sacarTurno( fecha, hora, mascota, familiar ) {
-        // TODO Posicion 0 del Array o hay otra forma?
-        // TODO let familiarBuscado = await this.#registroFamiliares.buscarPorDni( familiar.dni )[0]
+    async sacarTurno( { fecha, hora, mascota, familiar } ) {
+
         let familiarBuscado = await this.#registroFamiliares.buscarPorDni( familiar.dni )
         if ( !familiarBuscado ) {
             familiarBuscado = new Familiar( familiar )
             await this.#registroFamiliares.registrar( familiarBuscado )
         }
 
-        // TODO Posicion 0 del Array o hay otra forma?
-        // TODO let mascotaBuscada = await this.#registroMascotas.buscarPorId( mascota.id )[0]
         let mascotaBuscada = await this.#registroMascotas.buscarPorId( mascota.id )
 
         if ( !mascotaBuscada ) {

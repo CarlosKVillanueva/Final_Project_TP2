@@ -1,5 +1,6 @@
 import { MongoClient } from 'mongodb'
 import { stringMongo } from "../../../config/config.js"
+import Turno from "../models/Turno.js"
 
 const client = new MongoClient( stringMongo, { useNewUrlParser: true, useUnifiedTopology: true } );
 
@@ -13,29 +14,32 @@ export default class Turnera {
     }
 
     async buscarTurno( fechaParam, horaParam ) {
-        return await this.#turnos.findOne( { "fecha": fechaParam, "hora": horaParam } )
+        const dto = await this.#turnos.findOne( { "fecha": fechaParam, "hora": horaParam } )
+        return new Turno( dto )
     }
 
     async asignarTurno( turno ) {
-        await this.#turnos.insertOne( turno )
+        await this.#turnos.insertOne( turno.asDto() )
     }
 
     async cancelarTurno( fecha, hora ) {
         let result
         try {
-            result = await this.buscarTurno( fecha, hora )
+            result = await this.#turnos.deleteOne( { fecha, hora } )
         } catch ( e ) {
+            throw new Error( 'Internal server error' );
         }
         if ( result.deletedCount === 0 ) {
-            await this.#turnos.deleteOne( result )
+            throw new Error( 'No lo encontramos' );
         }
     }
 
     async listarTurnos() {
-        return await this.#turnos.find().toArray()
+        const dtos = await this.#turnos.find().toArray()
+        return dtos.map( d => new Turno( d ) )
     }
 
     async limpiarMDB() {
-        this.#turnos.remove({})
+        await this.#turnos.remove( {} )
     }
 }

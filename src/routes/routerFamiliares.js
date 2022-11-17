@@ -6,7 +6,6 @@ import {
 
 const routerFamiliares = new Router();
 
-
 routerFamiliares.post("/", controladorPostFamiliares);
 routerFamiliares.get( "/", controladorGetFamiliares );
 

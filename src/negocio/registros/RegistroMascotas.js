@@ -1,5 +1,7 @@
 import { MongoClient } from 'mongodb'
 import { stringMongo } from "../../../config/config.js"
+import Mascota from "../models/Mascota.js"
+import Familiar from "../models/Familiar.js"
 
 const client = new MongoClient( stringMongo, { useNewUrlParser: true, useUnifiedTopology: true } );
 
@@ -13,11 +15,12 @@ export default class RegistroMascotas {
     }
 
     async registrar( mascota ) {
-        return await this.#mascotas.insertOne( mascota )
+        return await this.#mascotas.insertOne( mascota.asDto() )
     }
 
     async buscarPorId( idParam ) {
-        return await this.#mascotas.find( { "id": idParam } ).toArray()
+        const dto = await this.#mascotas.findOne( { "id": idParam } )
+        return new Mascota( dto )
     }
 
     async eliminarMascota( { id } ) {
@@ -55,14 +58,15 @@ export default class RegistroMascotas {
     async listarTodas() {
         let lista
         try {
-            lista = await this.#mascotas.find().toArray()
+            const dtos = await this.#mascotas.find().toArray()
+            lista = dtos.map( d => new Mascota( d ) )
         } catch ( error ) {
-            console.error( error )
+            throw new Error( 'Internal server error' );
         }
         return lista
     }
 
     async limpiarMDB() {
-        this.#mascotas.remove({})
+        await this.#mascotas.remove( {} )
     }
 }
