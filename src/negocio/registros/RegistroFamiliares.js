@@ -16,7 +16,7 @@ export default class RegistroFamiliares {
     }
 
     async registrar( familiar ) {
-        return await this.#familiares.insertOne( familiar.asDto() )
+        return await this.#familiares.insertOne( familiar )
     }
 
     async buscarPorDni( dniParam ) {

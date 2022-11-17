@@ -24,26 +24,37 @@ export default class Veterinaria {
         let familiarBuscado = await this.#registroFamiliares.buscarPorDni( familiar.dni )
         if ( !familiarBuscado ) {
             familiarBuscado = new Familiar( familiar )
-            await this.#registroFamiliares.registrar( familiarBuscado )
+            await this.#registroFamiliares.registrar( familiarBuscado.asDto() )
         }
 
         let mascotaBuscada = await this.#registroMascotas.buscarPorId( mascota.id )
 
         if ( !mascotaBuscada ) {
             mascotaBuscada = new Mascota( mascota )
-            await this.#registroMascotas.registrar( mascotaBuscada )
+            await this.#registroMascotas.registrar( mascotaBuscada.asDto() )
         }
 
-        if ( !esFechaValida( fecha ) )
+        if ( !esFechaValida( fecha ) ) {
             throw new Error( `La fecha: ${ fecha } es invalida` )
-
-        if ( !esHoraValida( hora ) )
+        }
+        if ( !esHoraValida( hora ) ) {
             throw new Error( `La hora: ${ hora } es invalida` )
+        }
 
-        if ( await this.#turnera.buscarTurno( fecha, hora ) ) {
+        let turnoBuscado = await this.#turnera.buscarTurno( fecha, hora )
+
+        if ( turnoBuscado ) {
             throw new Error( `No contamos con un turno disponible el ${ fecha } a las ${ hora } hs.` )
         }
-        await this.#turnera.asignarTurno( new Turno( { fecha, hora, mascota, familiar } ) )
+        if (!familiarBuscado) {
+            throw new Error("Familiar inexistente")
+        }
+        if ( !mascotaBuscada ) {
+            throw new Error("Mascota inexistente")    
+        }
+        let dtoMascotaBuscada = mascotaBuscada.asDto()
+        let dtoFamiliarBuscado = familiarBuscado.asDto()
+        await this.#turnera.asignarTurno( new Turno( { fecha, hora, dtoMascotaBuscada, dtoFamiliarBuscado } ) )
     }
 
     async listarTurnos() {
