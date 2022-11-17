@@ -1,6 +1,5 @@
 import { MongoClient } from 'mongodb'
 import { stringMongo } from "../../../config/config.js"
-import Turno from "../models/Turno.js"
 
 const client = new MongoClient( stringMongo, { useNewUrlParser: true, useUnifiedTopology: true } );
 
@@ -13,16 +12,14 @@ export default class Turnera {
         this.#turnos = client.db( "VeterinariaTP2" ).collection( "turnera" )
     }
 
-    async buscarTurno( fecha, hora ) {
+    async existeTurno( fecha, hora ) {
         const dto = await this.#turnos.findOne( { fecha, hora } )
-        if (dto) {
-            throw new Error("Turno ocupado")
-        }
-        return dto
+        return !!dto;
+
     }
 
     async asignarTurno( turno ) {
-        await this.#turnos.insertOne( turno.asDto() )
+        await this.#turnos.insertOne( turno.asDto(), { forceServerObjectId: true } )
     }
 
     async cancelarTurno( fecha, hora ) {
@@ -38,8 +35,7 @@ export default class Turnera {
     }
 
     async listarTurnos() {
-        const dtos = await this.#turnos.find().toArray()
-        return dtos.map( d => new Turno( d ) )
+        return await this.#turnos.find().toArray()
     }
 
     async limpiarMDB() {

@@ -15,35 +15,55 @@ export default class Mascota {
         this.fechaNacimiento = requerido( fechaNacimiento )
         this.edad = requerido( edad )
         this.peso = requerido( peso )
+        this._nombre = nombre
+        this._raza = raza
+        this._fechaNacimiento = fechaNacimiento
+        this._peso = peso
     }
 
     get edad() {
         return this.#edad
     }
 
+    get nombre() {
+        return this._nombre
+    }
+
+    get raza() {
+        return this._raza
+    }
+
+    get fechaNacimiento() {
+        return this._fechaNacimiento
+    }
+
+    get peso() {
+        return this._peso
+    }
+
     get id() {
         return this.#id
     }
 
-    set id( value ) {
-        if ( !validadorAlfanumerico( value ) ) {
+    set id( id ) {
+        if ( !validadorAlfanumerico( id ) ) {
             throw new Error( `El id es invalido` )
         }
-        this.#id = value
+        this.#id = id
     }
 
-    set nombre( value ) {
-        if ( !validadorAlfabetico( value ) ) {
+    set nombre( nombre ) {
+        if ( !validadorAlfabetico( nombre ) ) {
             throw new Error( `El nombre es invalido` )
         }
-        this.#nombre = value
+        this.#nombre = nombre
     }
 
-    set raza( value ) {
-        if ( !validadorAlfabetico( value ) ) {
+    set raza( raza ) {
+        if ( !validadorAlfabetico( raza ) ) {
             throw new Error( `La raza es invalida` )
         }
-        this.#raza = value
+        this.#raza = raza
     }
 
     set fechaNacimiento( fecha ) {
@@ -53,26 +73,25 @@ export default class Mascota {
         this.#fechaNacimiento = fecha
     }
 
-    set edad( value ) {
-        if ( !numerosPositivos( value ) )
+    set edad( edad ) {
+        if ( !numerosPositivos( edad ) )
             throw new Error( `La edad es invalida` )
-        this.#edad = value
+        this.#edad = edad
     }
 
-    set peso( value ) {
-        if ( !numerosPositivos( value ) )
+    set peso( peso ) {
+        if ( !numerosPositivos( peso ) )
             throw new Error( `El peso es invalido` )
-        this.#peso = value
+        this.#peso = peso
     }
 
     asDto() {
         return Object.freeze( {
             id: this.id,
             nombre: this.nombre,
-            raza: this.raza,
             fechaNacimiento: this.fechaNacimiento,
             edad: this.edad,
-            peso: this.peso,
+            peso: this.peso
         } )
     }
 }

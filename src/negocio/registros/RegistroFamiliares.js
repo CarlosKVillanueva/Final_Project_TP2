@@ -16,11 +16,14 @@ export default class RegistroFamiliares {
     }
 
     async registrar( familiar ) {
-        return await this.#familiares.insertOne( familiar )
+        return await this.#familiares.insertOne( familiar.asDto() )
     }
 
     async buscarPorDni( dniParam ) {
         const dto = await this.#familiares.findOne( { "dni": dniParam } )
+        if ( !dto ) {
+            throw new Error( 'El familiar no existe, favor de crearlo antes de reservar.' )
+        }
         return new Familiar( dto )
     }
 
@@ -50,7 +53,7 @@ export default class RegistroFamiliares {
         }
     }
 
-    async eliminarRegistro( { dni } ) {
+    async eliminarRegistro( dni ) {
         let result = await this.#familiares.deleteOne( dni )
         if ( result.deletedCount === 0 ) {
             throw new Error( 'No se pudo eliminar al familiar.' )
@@ -58,14 +61,7 @@ export default class RegistroFamiliares {
     }
 
     async listarTodas() {
-        let lista
-        try {
-            const dtos = await this.#familiares.find().toArray()
-            lista = dtos.map( d => new Familiar( d ) )
-        } catch ( error ) {
-            throw new Error( 'Internal server error' );
-        }
-        return lista
+        return await this.#familiares.find().toArray()
     }
 
     async limpiarMDB() {

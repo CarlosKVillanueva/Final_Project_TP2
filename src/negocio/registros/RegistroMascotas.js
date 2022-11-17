@@ -14,11 +14,14 @@ export default class RegistroMascotas {
     }
 
     async registrar( mascota ) {
-        return await this.#mascotas.insertOne( mascota, { forceServerObjectId: true } )
+        return await this.#mascotas.insertOne( mascota.asDto() )
     }
 
     async buscarPorId( idParam ) {
         const dto = await this.#mascotas.findOne( { "id": idParam } )
+        if ( !dto ) {
+            throw new Error( 'La mascota no existe, favor de crearla antes de reservar.' )
+        }
         return new Mascota( dto )
     }
 
@@ -55,14 +58,7 @@ export default class RegistroMascotas {
     }
 
     async listarTodas() {
-        let lista
-        try {
-            const dtos = await this.#mascotas.find().toArray()
-            lista = dtos.map( d => new Mascota( d ) )
-        } catch ( error ) {
-            throw new Error( 'Internal server error' );
-        }
-        return lista
+        return await this.#mascotas.find().toArray()
     }
 
     async limpiarMDB() {

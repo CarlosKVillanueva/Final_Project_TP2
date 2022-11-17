@@ -1,5 +1,4 @@
-import { requerido, validadorAlfabetico, validadorAlfanumerico, validadorDni, validadorMail, validadorNumerico } from "../helpers/helpers.js"
-import RegistroMascotas from "../registros/RegistroMascotas.js"
+import { requerido, validadorAlfabetico, validadorDireccion, validadorDni, validadorMail, validadorNumerico } from "../helpers/helpers.js"
 
 export default class Familiar {
     #dni
@@ -8,16 +7,14 @@ export default class Familiar {
     #email
     #telefono
     #direccion
-    #mascotas
 
-    constructor( { dni, nombre, apellido, email, telefono, direccion } ) {
+    constructor( { dni, nombre, apellido, email, telefono, direccion }  ) {
         this.dni = requerido( dni )
         this.nombre = requerido( nombre )
         this.apellido = requerido( apellido )
         this.email = requerido( email )
         this.telefono = requerido( telefono )
         this.direccion = requerido( direccion )
-        this.mascotas = new RegistroMascotas()
     }
 
     get dni() {
@@ -78,15 +75,12 @@ export default class Familiar {
     }
 
     set direccion( value ) {
-        if ( !validadorAlfanumerico( value ) ) {
+        if ( !validadorDireccion( value ) ) {
             throw new Error( 'Direccion invalida' )
         }
         this.#direccion = value
     }
-
-    async asignarMascota( mascota ) {
-        await this.#mascotas.registrar( mascota )
-    }
+q
 
     asDto() {
         return Object.freeze( {

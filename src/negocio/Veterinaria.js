@@ -19,20 +19,10 @@ export default class Veterinaria {
         this.#turnera = new Turnera()
     }
 
-    async sacarTurno( { fecha, hora, mascota, familiar } ) {
+    async sacarTurno( { fecha, hora, id, dni } ) {
 
-        let familiarBuscado = await this.#registroFamiliares.buscarPorDni( familiar.dni )
-        if ( !familiarBuscado ) {
-            familiarBuscado = new Familiar( familiar )
-            await this.#registroFamiliares.registrar( familiarBuscado.asDto() )
-        }
-
-        let mascotaBuscada = await this.#registroMascotas.buscarPorId( mascota.id )
-
-        if ( !mascotaBuscada ) {
-            mascotaBuscada = new Mascota( mascota )
-            await this.#registroMascotas.registrar( mascotaBuscada.asDto() )
-        }
+        let familiar = await this.#registroFamiliares.buscarPorDni( dni )
+        let mascota = await this.#registroMascotas.buscarPorId( id )
 
         if ( !esFechaValida( fecha ) ) {
             throw new Error( `La fecha: ${ fecha } es invalida` )
@@ -41,20 +31,11 @@ export default class Veterinaria {
             throw new Error( `La hora: ${ hora } es invalida` )
         }
 
-        let turnoBuscado = await this.#turnera.buscarTurno( fecha, hora )
+        if ( await this.#turnera.existeTurno( fecha, hora ) ) {
+            throw new Error (' El turno se encuentra reservado, elija otra fecha')
+        }
 
-        if ( turnoBuscado ) {
-            throw new Error( `No contamos con un turno disponible el ${ fecha } a las ${ hora } hs.` )
-        }
-        if (!familiarBuscado) {
-            throw new Error("Familiar inexistente")
-        }
-        if ( !mascotaBuscada ) {
-            throw new Error("Mascota inexistente")    
-        }
-        let dtoMascotaBuscada = mascotaBuscada.asDto()
-        let dtoFamiliarBuscado = familiarBuscado.asDto()
-        await this.#turnera.asignarTurno( new Turno( { fecha, hora, dtoMascotaBuscada, dtoFamiliarBuscado } ) )
+        await this.#turnera.asignarTurno( new Turno( { fecha, hora, mascota, familiar } ) )
     }
 
     async listarTurnos() {
@@ -63,7 +44,7 @@ export default class Veterinaria {
 
     async cancelarTurno( fecha, hora ) {
         try {
-            if ( !await this.#turnera.buscarTurno( fecha, hora ) ) {
+            if ( await this.#turnera.existeTurno( fecha, hora ) ) {
                 await this.#turnera.cancelarTurno( fecha, hora )
             }
         } catch ( e ) {
@@ -85,8 +66,8 @@ export default class Veterinaria {
         await this.#registroMascotas.modificarDatos( mascota )
     }
 
-    async eliminarRegistroMascota( mascota ) {
-        await this.#registroMascotas.eliminarMascota( mascota )
+    async eliminarRegistroMascota( id ) {
+        await this.#registroMascotas.eliminarMascota( id )
     }
 
     // ------------    CRUD FAMILIARES     ------------- //
@@ -94,15 +75,17 @@ export default class Veterinaria {
     async listarFamiliares() {
         return await this.#registroFamiliares.listarTodas()
     }
+
     async registrarFamiliar( familiar ) {
         await this.#registroFamiliares.registrar( familiar )
     }
+
     async modificarDatosFamiliar( familiar ) {
         await this.#registroFamiliares.modificarDatos( familiar )
     }
 
-    async eliminarRegistroFamiliar( familiar  ) {
-        await this.#registroFamiliares.eliminarRegistro( familiar )
+    async eliminarRegistroFamiliar( dni ) {
+        await this.#registroFamiliares.eliminarRegistro( dni )
     }
 
 

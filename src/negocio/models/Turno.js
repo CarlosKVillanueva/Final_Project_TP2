@@ -1,4 +1,4 @@
-import { esFamiliarValido, esFechaValida, esHoraValida, esMascotaValida, requerido } from "../helpers/helpers.js"
+import { esFechaValida, esHoraValida, requerido } from "../helpers/helpers.js"
 
 export default class Turno {
     #fecha
@@ -6,16 +6,20 @@ export default class Turno {
     #mascota
     #familiar
 
-    // ? EL CONSTRUCTOR DE TURNO RECIBE UN TURNO ARMADO?
     constructor( { fecha, hora, mascota, familiar } ) {
         this.fecha = requerido( fecha )
         this.hora = requerido( hora )
-        this.mascota = requerido(mascota)
-        this.familiar = requerido(familiar)
+        this.mascota = requerido( mascota )
+        this.familiar = requerido( familiar )
+        this._hora = hora
     }
 
     get mascota() {
         return this.#mascota
+    }
+
+    get hora() {
+        return this._hora
     }
 
     get familiar() {
@@ -33,27 +37,15 @@ export default class Turno {
         this.#fecha = value
     }
 
-
-    // TODO es necesaria la validacion? teniendo la del modelo?
     set mascota( mascota ) {
-        if ( !esMascotaValida( mascota ) ) {
-            throw new Error( 'La mascota es Invalida' )
-        }
         this.#mascota = mascota
     }
 
-    // TODO idem
     set familiar( familiar ) {
-        if ( !esFamiliarValido( familiar ) ) {
-            throw new Error( 'El familiar es invalido' )
-        }
         this.#familiar = familiar
     }
 
     set hora( value ) {
-        if ( !esHoraValida( value ) ) {
-            throw new Error( 'Horario fuera de trabajo' )
-        }
         this.#hora = value
     }
 
