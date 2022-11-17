@@ -23,14 +23,11 @@ export default class Turnera {
     }
 
     async cancelarTurno( fecha, hora ) {
-        let result
-        try {
-            result = await this.#turnos.deleteOne( { fecha, hora } )
-        } catch ( e ) {
-            throw new Error( 'Internal server error' );
-        }
+        console.log( fecha, hora );
+        let result = await this.#turnos.deleteOne( { "fecha": fecha, "hora": hora } )
+        console.log( result );
         if ( result.deletedCount === 0 ) {
-            throw new Error( 'No lo encontramos' );
+            throw new Error( 'No existe el turno a eliminar' );
         }
     }
 

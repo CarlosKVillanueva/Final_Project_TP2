@@ -42,14 +42,8 @@ export default class Veterinaria {
         return await this.#turnera.listarTurnos()
     }
 
-    async cancelarTurno( fecha, hora ) {
-        try {
-            if ( await this.#turnera.existeTurno( fecha, hora ) ) {
-                await this.#turnera.cancelarTurno( fecha, hora )
-            }
-        } catch ( e ) {
-
-        }
+    async cancelarTurno( fecha, hora ) {     
+       await this.#turnera.cancelarTurno( fecha, hora )
     }
 
     // ------------    CRUD MASCOTAS     ------------- //

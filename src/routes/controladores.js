@@ -23,6 +23,17 @@ export async function controladorGetReservaTurno(req, res, next){
 	}
 }
 
+export async function controladorDeleteReservaTurno(req, res, next) {
+    try {
+        const fecha = req.query.fecha
+        const hora = req.query.hora
+        const dtosTurno = await veterinaria.cancelarTurno(fecha, hora)
+        res.json(dtosTurno)
+    } catch (error) {
+        next(error)
+    }
+}
+
 /* -------------------------------------------------------------------------- */
 /*                            CONTROLADOR MASCOTAS                            */
 /* -------------------------------------------------------------------------- */
@@ -44,6 +55,15 @@ export async function controladorGetMascotas(req, res, next){
     } catch (e) {
         next(e)
 	}
+}
+
+export async function controladorDeleteMascotas(req, res, next) {
+    try {
+        const dtosMascota = await veterinaria.eliminarRegistroMascota(req.query.id)
+        res.json(dtosMascota)
+    } catch (error) {
+        next(error)
+    }
 }
 
 /* -------------------------------------------------------------------------- */
@@ -70,7 +90,7 @@ export async function controladorGetFamiliares(req, res, next) {
 }
 export async function controladorDeleteFamiliares(req, res, next) {
     try {
-        const dtosFamiliar = await veterinaria.eliminarRegistroFamiliar(req.body)
+        const dtosFamiliar = await veterinaria.eliminarRegistroFamiliar(req.query.dni)
         res.json(dtosFamiliar)
     } catch (error) {
         next(error)

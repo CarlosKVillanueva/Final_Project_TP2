@@ -25,8 +25,11 @@ export default class RegistroMascotas {
         return new Mascota( dto )
     }
 
-    async eliminarMascota( { id } ) {
-        await this.#mascotas.deleteOne( id )
+    async eliminarMascota( id ) {
+        let result = await this.#mascotas.deleteOne( { "id": id } )
+        if ( result.deletedCount === 0 ) {
+            throw new Error( 'No se pudo eliminar a la mascota.' )
+        }
     }
 
     async modificarDatos( mascota ) {
