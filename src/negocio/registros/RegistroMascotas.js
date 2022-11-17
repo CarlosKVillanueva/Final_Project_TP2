@@ -1,7 +1,6 @@
 import { MongoClient } from 'mongodb'
 import { stringMongo } from "../../../config/config.js"
 import Mascota from "../models/Mascota.js"
-import Familiar from "../models/Familiar.js"
 
 const client = new MongoClient( stringMongo, { useNewUrlParser: true, useUnifiedTopology: true } );
 
