@@ -11,7 +11,6 @@ export default class Turno {
         this.hora = requerido( hora )
         this.mascota = requerido( mascota )
         this.familiar = requerido( familiar )
-        this._hora = hora
     }
 
     get mascota() {
@@ -19,7 +18,7 @@ export default class Turno {
     }
 
     get hora() {
-        return this._hora
+        return this.#hora
     }
 
     get familiar() {

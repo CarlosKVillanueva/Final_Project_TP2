@@ -80,7 +80,6 @@ export default class Familiar {
         }
         this.#direccion = value
     }
-q
 
     asDto() {
         return Object.freeze( {

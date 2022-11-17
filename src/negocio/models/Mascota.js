@@ -15,10 +15,6 @@ export default class Mascota {
         this.fechaNacimiento = requerido( fechaNacimiento )
         this.edad = requerido( edad )
         this.peso = requerido( peso )
-        this._nombre = nombre
-        this._raza = raza
-        this._fechaNacimiento = fechaNacimiento
-        this._peso = peso
     }
 
     get edad() {
@@ -26,19 +22,19 @@ export default class Mascota {
     }
 
     get nombre() {
-        return this._nombre
+        return this.#nombre
     }
 
     get raza() {
-        return this._raza
+        return this.#raza
     }
 
     get fechaNacimiento() {
-        return this._fechaNacimiento
+        return this.#fechaNacimiento
     }
 
     get peso() {
-        return this._peso
+        return this.#peso
     }
 
     get id() {
