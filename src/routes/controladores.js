@@ -1,6 +1,10 @@
 import Veterinaria from "../negocio/Veterinaria.js"
 const veterinaria = new Veterinaria()
 
+/* -------------------------------------------------------------------------- */
+/*                              Controlador turno                             */
+/* -------------------------------------------------------------------------- */
+
 export async function controladorPostReservaTurno(req, res, next) {
     try {
         const dtosTurnoReservado = await veterinaria.sacarTurno(req.body)
@@ -19,6 +23,10 @@ export async function controladorGetReservaTurno(req, res, next){
 	}
 }
 
+/* -------------------------------------------------------------------------- */
+/*                            CONTROLADOR MASCOTAS                            */
+/* -------------------------------------------------------------------------- */
+
 export async function controladorPostMascotas(req, res, next) {
     try {
         const dtosMascotasReservado = await veterinaria.registrarMascota(req.body)
@@ -27,6 +35,7 @@ export async function controladorPostMascotas(req, res, next) {
         next(e)
     } 
 }
+
 
 export async function controladorGetMascotas(req, res, next){
     try {
@@ -37,6 +46,10 @@ export async function controladorGetMascotas(req, res, next){
 	}
 }
 
+/* -------------------------------------------------------------------------- */
+/*                           CONTROLADOR FAMILIARES                           */
+/* -------------------------------------------------------------------------- */
+
 export async function controladorPostFamiliares(req, res, next) {
     try {
         const dtoFamiliarCreado = await veterinaria.registrarFamiliar(req.body)
@@ -46,9 +59,18 @@ export async function controladorPostFamiliares(req, res, next) {
     }
 }
 
+
 export async function controladorGetFamiliares(req, res, next) {
     try {
         const dtosFamiliar = await veterinaria.listarFamiliares()
+        res.json(dtosFamiliar)
+    } catch (error) {
+        next(error)
+    }
+}
+export async function controladorDeleteFamiliares(req, res, next) {
+    try {
+        const dtosFamiliar = await veterinaria.eliminarRegistroFamiliar(req.body)
         res.json(dtosFamiliar)
     } catch (error) {
         next(error)

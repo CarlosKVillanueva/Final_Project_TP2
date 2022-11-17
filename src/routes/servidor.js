@@ -1,4 +1,5 @@
 import express from "express";
+import cors from "cors"
 import { clasificarUsuarios } from "./middlewares.js";
 // import multer from "multer";
 import routerTurnos from "./routerTurnos.js";
@@ -7,6 +8,7 @@ import routerMascotas from "./routerMascotas.js";
 
 const app = express();
 app.use( express.json() );
+app.use( cors() )
 
 app.use( clasificarUsuarios );
 app.use( "/api/turnos", routerTurnos );
