@@ -15,7 +15,7 @@ export default class RegistroMascotas {
     }
 
     async registrar( mascota ) {
-        return await this.#mascotas.insertOne( mascota.asDto() )
+        return await this.#mascotas.insertOne( mascota, { forceServerObjectId: true } )
     }
 
     async buscarPorId( idParam ) {

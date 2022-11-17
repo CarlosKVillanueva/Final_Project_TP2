@@ -13,9 +13,12 @@ export default class Turnera {
         this.#turnos = client.db( "VeterinariaTP2" ).collection( "turnera" )
     }
 
-    async buscarTurno( fechaParam, horaParam ) {
-        const dto = await this.#turnos.findOne( { "fecha": fechaParam, "hora": horaParam } )
-        return new Turno( dto )
+    async buscarTurno( fecha, hora ) {
+        const dto = await this.#turnos.findOne( { fecha, hora } )
+        if (dto) {
+            throw new Error("Turno ocupado")
+        }
+        return dto
     }
 
     async asignarTurno( turno ) {
