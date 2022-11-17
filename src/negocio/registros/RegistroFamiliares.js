@@ -54,7 +54,9 @@ export default class RegistroFamiliares {
     }
 
     async eliminarRegistro( dni ) {
-        let result = await this.#familiares.deleteOne( dni )
+        console.log(dni);
+        let result = await this.#familiares.deleteOne( { "dni": dni } )
+        console.log(result);
         if ( result.deletedCount === 0 ) {
             throw new Error( 'No se pudo eliminar al familiar.' )
         }
